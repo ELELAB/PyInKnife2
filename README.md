@@ -4,9 +4,9 @@
 
 ## Background
 
-## Requirements`
+## Requirements
 
-The following Python requirements must also be met:
+The following Python requirements must be met:
 
 * `python` v3.7 or higher
 
