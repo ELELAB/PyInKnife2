@@ -4,20 +4,13 @@
 
 ## Background
 
-## Requirements
-
-The user must have these programs installed before running the phospho-iLIR scripts:
-
-* `iLIR`
-* `NetPhos` v3.1
-* `Spider3`
-* `PSIPRED`
+## Requirements`
 
 The following Python requirements must also be met:
 
 * `python` v3.7 or higher
 
-Finally, the following Python packages must be installed:
+The following Python packages must be installed:
 
 * `dask` and `dask distributed` v2.21.0 or higher
 * `MDAnalysis` v0.20.0 or higher
