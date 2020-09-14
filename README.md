@@ -1,8 +1,14 @@
-# PyInKnife
+# PyInKnife 2
 
 ## Overview
 
+PyInKnife2 is a set of Python scripts to run an updated version of the PyInKnife pipeline [^salamancaviloria2017] for Protein Structure Network (PSN) analysis using PyInteraph [^tiberti2015].
+
 ## Background
+
+### Protein Structure Network (PSN)
+
+
 
 ## Requirements
 
