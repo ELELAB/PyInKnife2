@@ -31,7 +31,7 @@ The scripts require no installation.
 
 ### pyinknife.py
 
-This is the script responsible for running the phospho-iLIR pipeline.
+This is the script responsible for running the PyInKnife pipeline.
 
 #### Command line
 
