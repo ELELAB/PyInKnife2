@@ -52,15 +52,19 @@ import yaml
 from .dask_patches import reset_worker_logger
 
 
-
+# directory where the default configuration files are stored
 CONFIGDIR = resource_filename(Requirement("PyInKnife"), \
                               "PyInKnife/config")
 
-PLOTCONFIGDIR = os.path.join(CONFIGDIR, "plot")
+# default configuration file for pyinknife_run
 DEFCONFIG = os.path.join(CONFIGDIR, "run.yaml")
+
+# default configuration file for pyinknife_aggregate
 DEFCONFIGAGGR = os.path.join(CONFIGDIR, "aggregate.yaml")
-DEFCONFIGCCS = os.path.join(PLOTCONFIGDIR, "ccs_barplot.yaml")
-DEFCONFIGHUBS = os.path.join(PLOTCONFIGDIR, "hubs_barplot.yaml")
+
+# default configuration files for pyinknife_plot
+DEFCONFIGCCS = os.path.join(CONFIGDIR, "plot_ccs_barplot.yaml")
+DEFCONFIGHUBS = os.path.join(CONFIGDIR, "plot_hubs_barplot.yaml")
 
 # pyinteraph/filter_graph/graph_analysis options
 # that should not be specified in the configuration
