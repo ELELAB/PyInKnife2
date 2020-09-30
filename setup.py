@@ -9,7 +9,7 @@ author = "Valentina Sora, Juan Salamanca Viloria, Matteo Tiberti, Elena Papaleo"
 author_email = "sora.valentina1@gmail.com"
 version = "2.0.0"
 description = "PyInKnife pipeline for Protein Structure Network analysis with PyInteraph"
-package_data = {"PyInKnife" : ["examples/*", "config/*", "config/plot/*"]}
+package_data = {"PyInKnife" : ["examples/*", "config/*"]}
 package_dir = {"PyInKnife" : "PyInKnife"}
 packages = ["PyInKnife"]
 entry_points = {"console_scripts" : \
@@ -19,9 +19,7 @@ entry_points = {"console_scripts" : \
                }
 # MDAnalysis 1.0.0 will be required till PyInteraph supports the hydrogen
 # bonds analysis in the newer versions
-install_requires = ["dask", \
-                    "dask[distributed]", \
-                    "matplotlib", \
+install_requires = ["matplotlib", \
                     "MDAnalysis==1.0.0", \
                     "numpy", \
                     "pandas", \
