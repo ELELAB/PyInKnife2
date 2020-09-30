@@ -75,8 +75,8 @@ def main():
                         default = None, \
                         help = r_help)
     
-    c_help = f"Configuration file to be used to run the pipeline. " \
-             f"Default is {util.DEFCONFIG}."
+    c_help = f"Configuration file used to run the pipeline. Default " \
+             f"is {util.DEFCONFIG}."
     parser.add_argument("-c", "--configfile", \
                         type = str, \
                         default = util.DEFCONFIG, \

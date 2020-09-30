@@ -132,8 +132,8 @@ def run_pyinteraph(trj, \
     p.wait()
     # set the log string
     logstr = \
-        f"pyinteraph run in {wd} exited with code {p.returncode}. " \
-        f"Command line: {' '.join(p.args)}"   
+        f"pyinteraph run in {wd} exited with code " \
+        f"{p.returncode} Command line: {' '.join(p.args)}"   
     # if the command completed successfully
     if p.returncode == 0:
         # inform the user only for debug purposes
