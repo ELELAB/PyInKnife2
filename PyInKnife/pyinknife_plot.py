@@ -172,7 +172,7 @@ def main():
     for infilename in os.listdir(rundir):
 
         ishubs = infilename.rstrip(extension).endswith("hubs.")
-        isccs = infilename.rstrip(extension).endswith("cc.")
+        isccs = infilename.rstrip(extension).endswith("ccs.")
         
         if not ((plot == "hubs" and ishubs) \
         or (plot == "ccs" and isccs)):
@@ -197,7 +197,7 @@ def main():
         
         # if the plot requested for the connected components
         # is a bar plot
-        if plotname in ("ccs_barplot", "hubs_barplot"):
+        if plotname in ("plot_ccs_barplot", "plot_hubs_barplot"):
 
             # values to be used to set the x-axis interval
             xvalues = range(len(df))
