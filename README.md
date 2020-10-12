@@ -61,7 +61,7 @@ This is the executable responsible for running the PyInKnife pipeline.
 | `-s`, `--top`                      | Topology.                                                    |
 | `-r`, `--ref`                      | Reference structure.                                         |
 | `-c`, `--configfile`               | Configuration file to be used to run the pipeline. Default is `$INSTALLDIR`/PyInKnife2/PyInKnife/config/run.yaml. |
-| `-d`, `--rundir`                   | Directory where to run the pipeline. Default is the current working directory. |
+| `-d`, `--rundir`                   | Directory where to run the pipeline.                         |
 | `-n`, `--nproc`                    | Number of processes to be started in parallel. Default is 1 process(es). |
 | `-ncaa`, `--noncanonical-residues` | Noncanonical residues present in your system.                |
 
@@ -141,8 +141,8 @@ This executable is used to aggregate the results of the PSNs generated from the 
 | `-h`, `--help`                  | Show the help message and exit.                              |
 | `-c`, `--configfile`            | Configuration file used to run the pipeline. Default is `$INSTALLDIR`/PyInKnife2/PyInKnife/config/run.yaml. |
 | `-ca`, `--configfile-aggregate` | Configuration file for data aggregation. Default is `$INSTALLDIR`/PyInKnife2/PyInKnife/config/aggregate.yaml. |
-| `-d`, `--rundir`                | Directory where the pipeline was run. Default is the current working directory. |
-| `-od`, `--outdir`               | Directory where to save the output files. Default is the current working directory. |
+| `-d`, `--rundir`                | Directory where the pipeline was run.                        |
+| `-od`, `--outdir`               | Directory where to save the output files.                    |
 | `--firstccs`                    | First # most populated connected components to be considered. Default is 5. |
 
 #### Outputs
@@ -179,8 +179,8 @@ This executable is used to plot the aggregated results.
 | `-ca`, `--configfile-aggregate` | Configuration file used for data aggregation. Default is `$INSTALLDIR`/PyInKnife2/PyInKnife/config/plot/aggregate.yaml. |
 | `-cp`, `--configfile-plot`      | Configuration file used for plotting. Default depends on what you want to plot. |
 | `-p`, `--plot`                  | What to plot. Default is hubs.                               |
-| `-d`, `--rundir`                | Directory where the aggregate outputs are saved. Default is the current working directory. |
-| `-od`, `--outdir`               | Directory where to save the output plots. Default is the current working directory. |
+| `-d`, `--rundir`                | Directory where the aggregate outputs are saved.             |
+| `-od`, `--outdir`               | Directory where to save the output plots.                    |
 
 #### Outputs
 
