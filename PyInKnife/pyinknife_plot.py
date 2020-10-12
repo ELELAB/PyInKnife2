@@ -80,18 +80,17 @@ def main():
                         default = p_default, \
                         help = p_help)
 
-    d_help = "Directory where the aggregate outputs are saved. " \
-             "Default is the current working directory."
+    d_help = "Directory where the aggregate outputs are saved."
     parser.add_argument("-d", "--rundir", \
                         type = str, \
-                        default = os.getcwd(), \
+                        required = True, \
                         help = d_help)
 
     od_help = "Directory where to save the output plots. " \
               "Default is the current working directory."
     parser.add_argument("-od", "--outdir", \
                         type = str, \
-                        default = os.getcwd(), \
+                        required = True, \
                         help = od_help)
 
 

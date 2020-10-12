@@ -82,11 +82,10 @@ def main():
                         default = util.DEFCONFIG, \
                         help = c_help)
 
-    d_help = "Directory where to run the pipeline. " \
-             "Default is the current working directory."
+    d_help = "Directory where to run the pipeline."
     parser.add_argument("-d", "--rundir", \
                         type = str, \
-                        default = os.getcwd(), \
+                        required = True, \
                         help = d_help)
 
     n_default = 1

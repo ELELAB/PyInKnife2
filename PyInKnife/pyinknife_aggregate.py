@@ -66,18 +66,16 @@ def main():
                         default = util.DEFCONFIGAGGR, \
                         help = ca_help)
 
-    d_help = "Directory where the pipeline was run. " \
-             "Default is the current working directory."
+    d_help = "Directory where the pipeline was run."
     parser.add_argument("-d", "--rundir", \
                         type = str, \
-                        default = os.getcwd(), \
+                        required = True, \
                         help = d_help)
 
-    od_help = "Directory where to save the output files. " \
-              "Default is the current working directory."
+    od_help = "Directory where to save the output files."
     parser.add_argument("-od", "--outdir", \
                         type = str, \
-                        default = os.getcwd(), \
+                        required = True, \
                         help = od_help)
     
     firstccs_def = 5 
@@ -91,10 +89,10 @@ def main():
     # parse the arguments
     args = parser.parse_args()
     # get single arguments
-    configfile = os.path.abspath(args.configfile)
-    configfile_aggregate = os.path.abspath(args.configfile_aggregate)
-    rundir = os.path.abspath(args.rundir)
-    outdir = os.path.abspath(args.outdir)
+    configfile = util.get_abspath(args.configfile)
+    configfile_aggregate = util.get_abspath(args.configfile_aggregate)
+    rundir = util.get_abspath(args.rundir)
+    outdir = util.get_abspath(args.outdir)
     firstccs = args.firstccs
 
 
