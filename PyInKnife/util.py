@@ -451,7 +451,9 @@ def parse_cc_out(outfile, firstccs):
         ccs = sorted(rawdata, reverse = True)[:firstccs]
         # create a Series with the number of each connected
         # component associated to the number of nodes in it
-        series = pd.Series(data = ccs, index = range(1, len(ccs)+1))
+        series = pd.Series(data = ccs, \
+                           index = range(1, len(ccs)+1), \
+                           dtype = np.int64)
         # rename the index of the Series and return it
         return series.rename_axis(index = INDEX)
 
@@ -480,7 +482,7 @@ def parse_hubs_out(outfile):
             if l.startswith(NOHUBS):
                 # return an empty Series
                 return pd.Series()
-            # if you found the beginnign of the list
+            # if you found the beginning of the list
             if l.startswith(START):
                 # turn on the flag to start parsing
                 parse = True
@@ -494,11 +496,11 @@ def parse_hubs_out(outfile):
                 k = [i for i in l.rstrip("\n").split(DATASEP) if i][1]
                 # update the counter for the hubs having the
                 # same degree
-                hubs[k] += 1
+                hubs[int(k)] += 1
         # create a Series with the degree of a hub associated
         # to the number of hubs having that degree (degree
         # distribution)
-        series = pd.Series(data = hubs)
+        series = pd.Series(data = hubs, dtype = np.int64)
         # rename the index of the Series and return it
         return series.rename_axis(index = INDEX)
 

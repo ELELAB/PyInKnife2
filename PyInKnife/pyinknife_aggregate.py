@@ -162,6 +162,11 @@ def main():
             # build the key that will identify the results for
             # this analysis
             key = f"{analysis}_{mode}_{dcut}_{pcut}_{graphanalysis}"
+
+        else:
+            # ignore the path since it does not contain the
+            # data we are interested in
+            continue
         
         # if this leaf corresponds to the results for hubs 
         if graphanalysis == "hubs":
