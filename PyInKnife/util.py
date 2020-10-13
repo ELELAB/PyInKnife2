@@ -558,6 +558,11 @@ def get_interval(values, config):
     # was not provided
     inttype = inconfig.get("type", "discrete")
 
+    # convert to a numpy array
+    values = np.array(values)
+    # filter out NaN values
+    values = values[np.logical_not(np.isnan(values))]
+
     # if it is a discrete interval
     if inttype == "discrete":
         # default to rounding to the nearest integer
@@ -570,10 +575,13 @@ def get_interval(values, config):
         # default number of steps is the number of values provided
         defsteps = len(values)
         # default spacing is the one between two steps
-        defspacing = int(np.linspace(defbottom, \
-                                     deftop, \
-                                     defsteps, \
-                                     retstep = True)[1])
+        steps, defspacing = np.linspace(defbottom, \
+                                        deftop, \
+                                        defsteps, \
+                                        retstep = True)
+        # if only one step is present, defspacing will be
+        # NaN and it will throw errors
+        defspacing = int(defspacing) if len(steps) > 1 else 0
         # the interval is not centered in zero by default
         defciz = False
 
@@ -589,10 +597,13 @@ def get_interval(values, config):
         # default is 5 steps 
         defsteps = 5
         # default spacing is the one between two steps
-        defspacing = np.linspace(defbottom, \
-                                 deftop, \
-                                 defsteps, \
-                                 retstep = True)[1]
+        steps, defspacing = np.linspace(defbottom, \
+                                        deftop, \
+                                        defsteps, \
+                                        retstep = True)[1]
+        # if only one step is present, defspacing will be
+        # NaN and it will throw errors
+        defspacing = defspacing if len(steps) > 1 else 0.0
         # the interval is not centered in zero by default
         defciz = False
 
@@ -614,7 +625,12 @@ def get_interval(values, config):
         # absolute value equal to absval
         top, bottom = absval, -absval
 
-    # return the interval
+    # if the spacing is 0
+    if spacing == 0.0:
+        # return a 1-step interval
+        return [bottom]
+
+    # return the full interval
     return np.arange(bottom, top + spacing, spacing)
 
 

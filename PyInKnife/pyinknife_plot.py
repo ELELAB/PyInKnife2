@@ -191,6 +191,12 @@ def main():
                          sep = sep, \
                          index_col = indexcol)
 
+        # report empty dataframes (i.e. no hubs were found)
+        if df.empty:
+            logger.info(f"Dataframe in {infile} is empty.")
+            # go on to the next dataframe
+            continue
+
         # get the plot and output configuration
         plotconfig = fullplotconfig["plot"]
         outconfig = fullplotconfig["output"]
@@ -228,6 +234,7 @@ def main():
         # get the x-axis interval
         xinterval = util.get_interval(values = xvalues, \
                                       config = xaxisconfig)
+
         # set the x-axis
         ax = util.set_axis(ax = ax, \
                            axis = "x", \
