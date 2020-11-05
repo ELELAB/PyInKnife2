@@ -426,8 +426,6 @@ def parse_cc_out(outfile, firstccs):
         rawdata = []
         # initialize the flag to start parsing to False
         parse = False
-        # initialize the counter for connected components found to 0
-        cccounter = 0
         # for each line 
         for l in f:
             # if you found the beginning of the list
@@ -436,11 +434,8 @@ def parse_cc_out(outfile, firstccs):
                 parse = True
                 # go to the next line
                 continue
-            # if parsing is enabled the the counter is still below
-            # the maximum number of connected components to be reported
-            if parse and cccounter <= firstccs:
-                # update the counter
-                cccounter += 1
+            # if parsing is enabled
+            if parse:
                 # get the nodes composing the connected component
                 cc = [i for i in l.split(DATASEP)[1].split(NODESEP) if i]
                 # save the number of nodes in the current connected
