@@ -413,6 +413,9 @@ def parse_cc_out(outfile, firstccs):
     # line that indicates the beginning of the list
     # of connected components
     START = "Connected component"
+    # start of the line where the nodes belonging to the
+    # connected component are stored
+    DATASTART = " ("
     # how data are separated in a line
     DATASEP = ")"
     # how the different nodes are separated in the same
@@ -435,7 +438,7 @@ def parse_cc_out(outfile, firstccs):
                 # go to the next line
                 continue
             # if parsing is enabled
-            if parse:
+            if parse and line.startswith(DATASTART):
                 # get the nodes composing the connected component
                 cc = [i for i in l.split(DATASEP)[1].split(NODESEP) if i]
                 # save the number of nodes in the current connected
