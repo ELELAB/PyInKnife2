@@ -438,7 +438,7 @@ def parse_cc_out(outfile, firstccs):
                 # go to the next line
                 continue
             # if parsing is enabled
-            if parse and line.startswith(DATASTART):
+            if parse and l.startswith(DATASTART):
                 # get the nodes composing the connected component
                 cc = [i for i in l.split(DATASEP)[1].split(NODESEP) if i]
                 # save the number of nodes in the current connected
