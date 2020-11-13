@@ -7,9 +7,9 @@
 	## References
 	
         When using PyInKnife2 and PyInteraph2 for publication please cite:
-	``Valentina Sora, Matteo Tiberti, and Elena Papaleo
+	Valentina Sora, Matteo Tiberti, and Elena Papaleo
         PyInteraph2 and PyInKnife2 to analyze networks in protein structural ensembles
-        Biorxiv, submitted``
+        Biorxiv, submitted
 
 
 	## Background
