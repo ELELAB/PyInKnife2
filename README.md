@@ -1,107 +1,115 @@
-# PyInKnife 2
+	# PyInKnife 2
 
-## Overview
+	## Overview
 
-PyInKnife2 is a set of Python scripts to run an updated version of the PyInKnife pipeline [^salamancaviloria2017] for Protein Structure Network (PSN) analysis using PyInteraph [^tiberti2015].
+	PyInKnife2 is a set of Python scripts to run an updated version of the PyInKnife pipeline [^salamancaviloria2017] for Protein Structure Network (PSN) analysis using PyInteraph2 [^tiberti2015].
 
-## Background
+	## References
+	
+        When using PyInKnife2 and PyInteraph2 for publication please cite:
+	``Valentina Sora, Matteo Tiberti, and Elena Papaleo
+        PyInteraph2 and PyInKnife2 to analyze networks in protein structural ensembles
+        Biorxiv, submitted``
 
-### Protein Structure Networks (PSNs)
 
-Protein Structure Networks (PSNs) are a way to analyze a protein structure or ensemble of conformations through the mathematical concept of network. 
+	## Background
 
-A network (or graph) is defined as a set of **nodes** connected by **edges** (or arcs) that represent some sort of relationship between each pair of nodes. A network can be weighted, meaning that specific weights are associated to the edges, or unweighted.
+	### Protein Structure Networks (PSNs)
 
-In PSNs, nodes are usually represented by the protein monomeric unit (i.e., a residue) and edges may represent different types of physical interactions between these units (such as salt bridges and hydrogen bonds) or may be computed according to some definition of "contact". PSNs are usually weighted networks.
+	Protein Structure Networks (PSNs) are a way to analyze a protein structure or ensemble of conformations through the mathematical concept of network. 
 
-If a PSN is calculated over an ensemble of conformations, a single network is computed for each conformation, and then all networks are merged into a single network. A way of assigning edges and edge weights in this aggregated network can be to average over the weight of an edge over the whole ensemble, or to compute the persistence of the edge in the ensemble (i.e., fraction of conformations in which the edge is present).
+	A network (or graph) is defined as a set of **nodes** connected by **edges** (or arcs) that represent some sort of relationship between each pair of nodes. A network can be weighted, meaning that specific weights are associated to the edges, or unweighted.
 
-### PyInteraph
+	In PSNs, nodes are usually represented by the protein monomeric unit (i.e., a residue) and edges may represent different types of physical interactions between these units (such as salt bridges and hydrogen bonds) or may be computed according to some definition of "contact". PSNs are usually weighted networks.
 
-PyInteraph [^tiberti2014]  is a software for Protein Structure Network creation and analysis, where a PSN has residues as nodes and edges can be defined in different ways, for example representing a particular class of non-covalent interactions between residues (hydrophobic contacts, salt bridges or hydrogen bonds). 
+	If a PSN is calculated over an ensemble of conformations, a single network is computed for each conformation, and then all networks are merged into a single network. A way of assigning edges and edge weights in this aggregated network can be to average over the weight of an edge over the whole ensemble, or to compute the persistence of the edge in the ensemble (i.e., fraction of conformations in which the edge is present).
 
-### PyInKnife
+	### PyInteraph
 
-PyInKnife [^salamancaviloria2015] is a pipeline built on top of PyInteraph to assess the robustness of the PSN analyses performed by PyInteraph on a given ensemble by running them not only on the full ensemble but also on subsets of it and comparing the networks from such resampling to the network built from the whole ensemble.
+	PyInteraph [^tiberti2014]  is a software for Protein Structure Network creation and analysis, where a PSN has residues as nodes and edges can be defined in different ways, for example representing a particular class of non-covalent interactions between residues (hydrophobic contacts, salt bridges or hydrogen bonds). 
 
-The default (and, so far, only) resampling method used is jackknife resampling.
+	### PyInKnife
 
-## Requirements
+	PyInKnife [^salamancaviloria2015] is a pipeline built on top of PyInteraph to assess the robustness of the PSN analyses performed by PyInteraph on a given ensemble by running them not only on the full ensemble but also on subsets of it and comparing the networks from such resampling to the network built from the whole ensemble.
 
-The user must have `python` v3.7 or higher installed, together with the PyInteraph software (whose latest version can be found [here](https://github.com/ELELAB/pyinteraph2/tree/feature_py3)).
+	The default (and, so far, only) resampling method used is jackknife resampling.
 
-Required Python dependencies, if not already present, will be installed along with PyInKnife.
+	## Requirements
 
-## Installation
+	The user must have `python` v3.7 or higher installed, together with the PyInteraph software (whose latest version can be found [here](https://github.com/ELELAB/pyinteraph2/tree/feature_py3)).
 
-To install PyInKnife, download and unzip this folder, enter the folder and run the following command:
+	Required Python dependencies, if not already present, will be installed along with PyInKnife.
 
-`python3.7 setup.py install`
+	## Installation
 
-Upon successful installation, you should have three executable (`pyinknife_run`, `pyinknife_aggregate` and `pyinknife_plot`) available to perform the various steps of data collection and analysis.
+	To install PyInKnife, download and unzip this folder, enter the folder and run the following command:
 
-## Usage
+	`python3.7 setup.py install`
 
-### pyinknife_run
+	Upon successful installation, you should have three executable (`pyinknife_run`, `pyinknife_aggregate` and `pyinknife_plot`) available to perform the various steps of data collection and analysis.
 
-This is the executable responsible for running the PyInKnife pipeline.
+	## Usage
 
-#### Command line
+	### pyinknife_run
 
-`pyinknife.py [-h] -f TRJ -s TOP [-r REF] -c CONFIGFILE [-d RUNDIR] [-n NPROC] [-ncaa [NONCANONICAL_RESIDUES [NONCANONICAL_RESIDUES ...]]]`
+	This is the executable responsible for running the PyInKnife pipeline.
 
-#### Options
+	#### Command line
 
-`$INSTALLDIR` indicates the directory where you installed PyInKnife.
+	`pyinknife.py [-h] -f TRJ -s TOP [-r REF] -c CONFIGFILE [-d RUNDIR] [-n NPROC] [-ncaa [NONCANONICAL_RESIDUES [NONCANONICAL_RESIDUES ...]]]`
 
-| Option                             | Meaning                                                      |
-| ---------------------------------- | ------------------------------------------------------------ |
-| `-h`, `--help`                     | Show the help message and exit.                              |
-| `-f ` `--trj`                      | Trajectory.                                                  |
-| `-s`, `--top`                      | Topology.                                                    |
-| `-r`, `--ref`                      | Reference structure.                                         |
-| `-c`, `--configfile`               | Configuration file to be used to run the pipeline. Default is `$INSTALLDIR`/PyInKnife2/PyInKnife/config/run.yaml. |
-| `-d`, `--rundir`                   | Directory where to run the pipeline.                         |
-| `-n`, `--nproc`                    | Number of processes to be started in parallel. Default is 1 process(es). |
-| `-ncaa`, `--noncanonical-residues` | Noncanonical residues present in your system.                |
+	#### Options
 
-#### Input files
+	`$INSTALLDIR` indicates the directory where you installed PyInKnife.
 
-##### Configuration file
+	| Option                             | Meaning                                                      |
+	| ---------------------------------- | ------------------------------------------------------------ |
+	| `-h`, `--help`                     | Show the help message and exit.                              |
+	| `-f ` `--trj`                      | Trajectory.                                                  |
+	| `-s`, `--top`                      | Topology.                                                    |
+	| `-r`, `--ref`                      | Reference structure.                                         |
+	| `-c`, `--configfile`               | Configuration file to be used to run the pipeline. Default is `$INSTALLDIR`/PyInKnife2/PyInKnife/config/run.yaml. |
+	| `-d`, `--rundir`                   | Directory where to run the pipeline.                         |
+	| `-n`, `--nproc`                    | Number of processes to be started in parallel. Default is 1 process(es). |
+	| `-ncaa`, `--noncanonical-residues` | Noncanonical residues present in your system.                |
 
-A YAML file containing the script configuration (please see the `run.yaml` file in the `config` directory for an example of configuration file).
+	#### Input files
 
-Please be aware that the following options, if passed to the corresponding command in the configuration file, will be removed during the pre-processing of the configuration, since they are either set internally or elsewhere in the configuration file:
+	##### Configuration file
 
-| Command          | Ignored options                                              |
-| ---------------- | ------------------------------------------------------------ |
-| `pyinteraph`     | `-h`, `--help`, `-s`, `--top`, `-t`, `--trj` , `-r`, `--ref`, `--sb-mode`, `--hb-class`, `-hc-co`, `--hc-cutoff`, `-sb-co`, `--sb-cutoff`, `-hb-co`, `--hb-cutoff` |
-| `filter_graph`   | `-d`, `--input-dat`, `-t`, `--filter-threshold`              |
-| `graph_analysis` | `-r`, `--reference`, `-a`, `--adj-matrix`                    |
+	A YAML file containing the script configuration (please see the `run.yaml` file in the `config` directory for an example of configuration file).
 
-`--hc-perco` (`--hc-persistence-cutoff`), `--sb-perco` (`--sb-persistence-cutoff`), `--hb-perco` can be passed as `pyinteraph` options if you directly want a filtered network. Persistence cut-offs specified for `filter_graph` will be used to further filter this initial network.
+	Please be aware that the following options, if passed to the corresponding command in the configuration file, will be removed during the pre-processing of the configuration, since they are either set internally or elsewhere in the configuration file:
 
-#### Outputs
+	| Command          | Ignored options                                              |
+	| ---------------- | ------------------------------------------------------------ |
+	| `pyinteraph`     | `-h`, `--help`, `-s`, `--top`, `-t`, `--trj` , `-r`, `--ref`, `--sb-mode`, `--hb-class`, `-hc-co`, `--hc-cutoff`, `-sb-co`, `--sb-cutoff`, `-hb-co`, `--hb-cutoff` |
+	| `filter_graph`   | `-d`, `--input-dat`, `-t`, `--filter-threshold`              |
+	| `graph_analysis` | `-r`, `--reference`, `-a`, `--adj-matrix`                    |
 
-If you run with the provided configuration file in a generic test folder called "analysis", you will obtain the following directory tree representing your results:
+	`--hc-perco` (`--hc-persistence-cutoff`), `--sb-perco` (`--sb-persistence-cutoff`), `--hb-perco` can be passed as `pyinteraph` options if you directly want a filtered network. Persistence cut-offs specified for `filter_graph` will be used to further filter this initial network.
 
-```
-analysis
-|----| fulltrj
-|----|----| hb
-|----|----|----| sc-sc
-|----|----|----|----| 3.5
-|----|----|----|----|----| 50.0
-|----|----|----|----|----|----| ccs
-|----|----|----|----|----|----| hubs
-|----|----| hc
-|----|----|----| 5.0
-|----|----|----|----| 50.0
-|----|----|----|----|----| ccs
-|----|----|----|----|----| hubs
-|----|----|----| 5.5
-|----|----|----|----| 50.0
-|----|----|----|----|----| ccs
+	#### Outputs
+
+	If you run with the provided configuration file in a generic test folder called "analysis", you will obtain the following directory tree representing your results:
+
+	```
+	analysis
+	|----| fulltrj
+	|----|----| hb
+	|----|----|----| sc-sc
+	|----|----|----|----| 3.5
+	|----|----|----|----|----| 50.0
+	|----|----|----|----|----|----| ccs
+	|----|----|----|----|----|----| hubs
+	|----|----| hc
+	|----|----|----| 5.0
+	|----|----|----|----| 50.0
+	|----|----|----|----|----| ccs
+	|----|----|----|----|----| hubs
+	|----|----|----| 5.5
+	|----|----|----|----| 50.0
+	|----|----|----|----|----| ccs
 |----|----|----|----|----| hubs
 |----|----| sb
 |----|----|----| different_charge
