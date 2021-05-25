@@ -2,9 +2,11 @@
 
 PyInKnife2 is a Python package.
 
-In order to install PyInKnife2 you will need **Python 3.7 or higher** and several open-source Python packages.
+In order to install PyInKnife2 you will need **Python 3.7 or higher**, **several open-source Python packages** and **PyInteraph2**.
 
 Python is usually available by default in any Linux installation, while the Python packages will be installed automatically during the installation process. Please see the `requirements.txt` file or the `environment.yaml` file for the complete list of Python packages required.
+
+PyInteraph2, along with its own installation instructions, can be found [here](https://github.com/ELELAB/pyinteraph2). PyInteraph2 needs to be installed before proceeding with the installation of PyInKnife2.
 
 ## Installation instructions
 
