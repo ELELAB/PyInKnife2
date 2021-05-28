@@ -83,6 +83,7 @@ You can now install PyInteraph2:
 
 ```shell
 python setup.py install
+cd ..
 ```
 
 PyInteraph2 is now installed and you can proceed to the installation of PyInKnife2.
@@ -126,7 +127,6 @@ Clone the PyInKnife2 source code from its GitHub repository and enter the local 
 
 ```shell
 git clone https://github.com/ELELAB/PyInKnife2.git
-cd PyInKnife2
 ```
 
 If `git` is not available to you, you can download the repository content as a ZIP file from the PyInKnife2 GitHub repository web page.
@@ -144,7 +144,7 @@ Once `conda` is installed on your system, you can use it to create a virtual env
 Create your `conda` environment starting from the provided environment file:
 
 ```shell
-conda env create --file environment.yaml --prefix ./pyinknife2-env
+conda env create --file PyInKnife2/environment.yaml --prefix ./pyinknife2-env
 ```
 
 In this case we are asking conda to create the environment locally (`--prefix`). This is not strictly necessary.
@@ -159,7 +159,7 @@ and changing `/my/other/directory/conda/pkgs` to a directory of your choice.
 
 #### Step 4 - Activate the environment
 
-Activate the `conda` environment, just by running the command line that conda suggests for this purpose at the end of the previous step. It is usually something like:
+Activate the `conda` environment by running the command line that conda suggests for this purpose at the end of the previous step. It is usually something like:
 
 ```shell
 conda activate ./pyinknife2-env
@@ -171,7 +171,7 @@ Clone the PyInteraph2 source code from its GitHub repository and enter the local
 
 ```shell
 git clone https://github.com/ELELAB/pyinteraph2.git
-cd pyinteraoh2
+cd pyinteraph2
 ```
 
 If `git` is not available to you, you can download the repository content as a ZIP file from the PyInteraph2 GitHub repository web page.
@@ -191,6 +191,8 @@ PyInteraph2 is now installed and you can proceed to the installation of PyInKnif
 You can now install PyInKnife2:
 
 ```shell
+cd ..
+cd PyInKnife2
 python setup.py install
 ```
 
