@@ -87,8 +87,17 @@ def get_abspath(path):
     """Return the absolute path of a path if the path is not None,
     else return None.
     """
-    
-    return os.path.abspath(path) if path is not None else path
+
+    # return None if path is None
+    if path is None:
+        return path
+
+    # resolve symbolic links
+    if os.path.islink(path):
+        path = os.readlink(path)
+
+    # return the absolute path (possibly after link resolution)
+    return os.path.abspath(path)
 
 
 
@@ -142,9 +151,14 @@ def run_pyinteraph(trj, \
     else:
         # inform the user in any case 
         logger.error(logstr)
-    # return the path to output matrix
+    # get the name of the option defining the output matrix
     outmatrix = "--" + analysis + "-graph"
-    return os.path.join(wd, otherargs[otherargs.index(outmatrix)+1])
+    # get the matrix full name
+    outmatrix_fullname = otherargs[otherargs.index(outmatrix)+1]
+    # divide the matrix name from the file extension
+    outmatrix_name, outmatrix_ext = outmatrix_fullname.split(".") 
+    # return the path to output matrix
+    return os.path.join(wd, outmatrix_name + "_all." + outmatrix_ext)
 
 
 def run_filter_graph(mat, perco, out, wd, otherargs):

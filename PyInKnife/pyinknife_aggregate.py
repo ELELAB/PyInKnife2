@@ -133,10 +133,16 @@ def main():
     # get the running directory base name so that the paths reported
     # by os.walk will be rooted there
     rundirbasename = os.path.basename(rundir)
+
+    # if the base name of the running directory is the same as the
+    # base name of the current working directory (i.e., pyinknife_run
+    # was run in the current working directory)
+    if rundirbasename == os.path.basename(os.getcwd()):
+        rundirbasename = "."
     
     # traverse the directory tree rooted in the running directory
-    for path, dirs, files in os.walk(rundirbasename):
-        
+    for path, dirs, files in list(os.walk(rundirbasename)):
+
         # split the path into its components
         splitpath = path.split("/")
         
