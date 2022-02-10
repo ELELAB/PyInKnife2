@@ -1,0 +1,18 @@
+# output options
+output:
+  # file extension
+  extension: ".csv"
+  # field separator
+  sep: ","
+  # index column
+  indexcol: 0
+  
+# name of the columns containing across-resamplings
+# statistics
+columns:
+  mean: mean_resamplings
+  median: median_resamplings
+  min: min_resamplings
+  max: max_resamplings
+  std: std_resamplings
+  sem: sem_resamplings
