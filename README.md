@@ -1,6 +1,10 @@
+Cancer Structural Biology, Danish Cancer Society Research Center, 2100, Copenhagen, Denmark 
+Cancer Systems Biology, Health and Technology Department, Section for Bioinformatics, 2800, Lyngby, Denmark
+
 # PyInKnife 2
 
 ## Overview
+
 
 PyInKnife2 is a set of Python scripts to run an updated version of the PyInKnife pipeline [^salamancaviloria2017] for Protein Structure Network (PSN) analysis using PyInteraph2 [^tiberti2015].
 
@@ -8,7 +12,7 @@ PyInKnife2 is a set of Python scripts to run an updated version of the PyInKnife
 
 When using PyInKnife2 and PyInteraph2 for publication please cite:
 
-Valentina Sora, Matteo Tiberti, and Elena Papaleo, PyInteraph2 and PyInKnife2 to analyze networks in protein structural ensembles, *bioRxiv*, submitted
+Valentina Sora, Matteo Tiberti, and Elena Papaleo, PyInteraph2 and PyInKnife2 to analyze networks in protein structural ensembles, *bioRxiv*, https://doi.org/10.1101/2020.11.22.381616
 
 ## Background
 
