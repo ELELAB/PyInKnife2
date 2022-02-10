@@ -1,11 +1,11 @@
 # name of the file that will be used as topology by PyInteraph
 # (this file will not be created if a reference structure if passed by the user,
 # since the user-provided topology will be used as topology in this case)
-pyintop: top.gro
+pyintop: pdbmovie_1.pdb
 # name of the file that will be used as reference by PyInteraph
 # (this file will not be created if a reference structure if passed by the user,
 # since the user reference structure will be used as reference)
-pyinref: ref.pdb
+pyinref: pdbmovie_1.pdb 
 
 # resampling options
 resampling:
@@ -14,24 +14,24 @@ resampling:
   # resampling method
   method: jackknife
   # number of samplings to be performed
-  nsamplings: 5
+  nsamplings: 10
   # names of the directories where the analyses for the full trajectory
   # and the resampled trajectories (if any) will be performed
   dirnames:
-    trj: fulltrj
+    trj: trjfull
     # {nsampling} is a placeholder for each sampling number (that
     # goes from 0 to nsamplings-1). Keep it somewhere in the name.
     subtrj: resampling{nsampling}
 
 # pyinteraph options
 pyinteraph:
-  
-  # hydrophobic contacts options
+
+  # hydrophobic contacts options but used for scPSN
   hc:
     # whether to run the hydrophobic contacts analysis
-    run: True
+    run: True 
     # distance cut-offs to test
-    dcuts: !!seq [5.0, 5.5]
+    dcuts: !!seq [4.5,5,5.5,6.0]
     # name of the output/log file
     out: hc.log
     # options to be passed directly to the pyinteraph command
@@ -39,16 +39,16 @@ pyinteraph:
       --ff-masses: charmm27
       --verbose: True
       --hydrophobic: True
-      --hc-residues: ALA,ARG,ASN,ASP,CYS,GLN,GLU,HIS,ILE,LEU,LYS,MET,PHE,PRO,SER,THR,TRP,TYR,VAL
-      --hc-dat: hc.dat
-      --hc-graph: hc-graph.dat
+      --hc-residues: ALA,ARG,ASN,ASP,CYS,GLN,GLU,HIS,ILE,LEU,LYS,MET,PHE,PRO,SER,THR,TRP,TYR,VAL 
+      --hc-csv: hydrophobic-clusters.csv
+      --hc-graph: hc-graph.dat 
   
-  # salt bridges options
+      # salt bridges options
   sb:
     # whether to run the salt bridges analysis
-    run: True
+    run: True 
     # distance cut-offs to test
-    dcuts: !!seq [4.5]
+    dcuts: !!seq [4.0,4.5,5.5]
     # salt bridges mode
     modes: !!seq [different_charge]
     # name of the output/log file
@@ -58,7 +58,7 @@ pyinteraph:
       --ff-masses: charmm27
       --verbose: True
       --salt-bridges: True
-      --sb-dat: sb.dat
+      --sb-csv: salt-bridges.csv  
       --sb-graph: sb-graph.dat
   
   # hydrogen bonds options
@@ -66,7 +66,7 @@ pyinteraph:
     # whether to run the hydrogen bonds analysis
     run: True
     # distance cut-offs to test
-    dcuts: !!seq [3.5]
+    dcuts: !!seq [3.0,3.5]
     # hydrogen bonds modes (classes)
     modes: !!seq [sc-sc]
     # name of the output/log file
@@ -76,7 +76,7 @@ pyinteraph:
       --ff-masses: charmm27
       --verbose: True
       --hydrogen-bonds: True
-      --hb-dat: hb.dat
+      --hb-csv: hydrogen-bonds.csv
       --hb-graph: hb-graph.dat
 
 # filter_graph options
@@ -84,7 +84,7 @@ filter_graph:
   # name of the output/log file
   out: filter_graph.log
   # persistence cut-offs to test
-  pcuts: !!seq [50.0]
+  pcuts: !!seq [20.0]
   # options to be passed directly to the filter_graph command
   options:
     --output-dat: filtered_graph.dat
