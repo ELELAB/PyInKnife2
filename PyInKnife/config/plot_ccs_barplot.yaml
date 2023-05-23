@@ -1,77 +1,106 @@
 
+
 #------------------------------- Output ------------------------------#
 
-# output file settings (passed to 'matplotlib.pyplot.savefig')
+
+# Output file settings (passed to 'matplotlib.pyplot.savefig')
 output:
+  
   # DPI (the higher the number, the higher the resolution)
   dpi: 900
-  # whether to have a transparent or opaque background
+  
+  # Whether to have a transparent or opaque background
   transparent: True
-  # format of the output file
+  
+  # Format of the output file
   format: "pdf"
-  # bbox in inches. If 'tight', use tight layout for the figure
+  
+  # Bbox in inches. If 'tight', use a tight layout for the figure
   bbox_inches: "tight"
+
 
 #------------------------------- Barplot -----------------------------#
 
-# bar plot settings
+
+# Bar plot settings
 plot:
-  # settings for the bars
+  
+  # Settings for the bars
   bar:
-    # color palette (either a Seaborn named palette or a list of
+    
+    # Color palette (either a Seaborn named palette or a list of
     # HEX codes) to be used for the bars
     palette: "colorblind"
-    # settings for each bar
+    
+    # Settings for each bar
     bars:
-      # where the bottom of the bar lies
+      
+      # Where the bottom of the bar lies
       bottom: 0
-      # bar alignment
+      
+      # Bar alignment
       align: "center"
-    # settings for the error bars
+    
+    # Settings for the error bars
     yerr:
-      # marker format
+      
+      # Marker format
       fmt: "."
-      # cap size
+      
+      # Cap size
       capsize: 2
-      # color of the error bar/marker
+      
+      # Color of the error bar/marker
       color: "black"
     
-  # y-axis settings  
+  # X-axis settings  
   xaxis:
-    # label settings (passed to 'matplotlib.axes.Axes.set_xlabel')
+    
+    # Label settings (passed to
+    # 'matplotlib.axes.Axes.set_xlabel')
     label:
-      xlabel: "Connected component"
-      #fontproperties:
-      #  size: 12
-    # tick labels settings (passed to 'matplotlib.axes.Axes.set_xticklabels')  
-    ticklabels:
-      # tick label rotation
-      rotation: 90
-      # tick label font properties
-      #fontproperties:
-      #  fname: !!null
-      #  size: 8
 
-    # values interval settings
+      # Text for the label
+      xlabel: "Connected component"
+    
+    # Tick labels settings (passed to 
+    # 'matplotlib.axes.Axes.set_xticklabels')
+    ticklabels:
+      
+      # Tick label rotation
+      rotation: 90
+
+    # Settings for the interval represented on the axis
     interval:
+
+      # Type of interval ('discrete' or 'continuous')
       type: "discrete"
     
-  # y-axis settings
+  # Y-axis settings
   yaxis:
-    # label settings (passed to 'matplotlib.axes.Axes.set_ylabel')
+    
+    # Label settings (passed to
+    # 'matplotlib.axes.Axes.set_ylabel')
     label:
-      ylabel: "# of nodes"
-    # tick labels settings (passed to 'matplotlib.axes.Axes.set_yticklabels')
-    ticklabels:
-      # tick label rotation
-      rotation: 0
-      # tick label font properties
-      #fontproperties:
-      #  fname: !!null
-      #  size: 8
 
-    # values interval settings
+      # Text for the label
+      ylabel: "# of nodes"
+    
+    # Tick labels settings (passed to
+    # 'matplotlib.axes.Axes.set_yticklabels')
+    ticklabels:
+      
+      # Tick label rotation
+      rotation: 0
+
+    # Settings for the interval represented on the axis
     interval:
+
+      # Type of interval ('discrete' or 'continuous')      
       type: "discrete"
+
+      # Values' spacing
       spacing: 5
+
+      # Lowest value of the interval
       bottom: 0

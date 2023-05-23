@@ -1,112 +1,253 @@
-# name of the file that will be used as topology by PyInteraph
-# (this file will not be created if a reference structure if passed by the user,
-# since the user-provided topology will be used as topology in this case)
-pyintop: pdbmovie_1.pdb
-# name of the file that will be used as reference by PyInteraph
-# (this file will not be created if a reference structure if passed by the user,
-# since the user reference structure will be used as reference)
-pyinref: pdbmovie_1.pdb 
 
-# resampling options
+
+#------------------------------ System -------------------------------#
+
+
+# Name of the file that will be used as topology by PyInteraph
+# (this file will not be created if a reference structure is
+# passed by the user, since the user-provided topology will
+# be used as topology in this case)
+pyintop: top.pdb
+
+# Name of the file that will be used as reference by PyInteraph
+# (this file will not be created if a reference structure is
+# passed by the user, since the user-provided reference structure
+# will be used as reference)
+pyinref: ref.pdb
+
+
+#---------------------------- Resampling -----------------------------#
+
+
+# Resampling options
 resampling:
-  # whether to run the resampling
+  
+  # Whether to run the resampling
   run: True
-  # resampling method
+  
+  # Resampling method to be used
   method: jackknife
-  # number of samplings to be performed
+  
+  # Number of resamplings to be performed
   nsamplings: 10
-  # names of the directories where the analyses for the full trajectory
-  # and the resampled trajectories (if any) will be performed
+  
+  # Names of the directories where the analyses for the full
+  # trajectory and the resampled trajectories (if any) will be
+  # performed
   dirnames:
+
+    # Name of the directory used for the full trajectory
     trj: trjfull
+
     # {nsampling} is a placeholder for each sampling number (that
-    # goes from 0 to nsamplings-1). Keep it somewhere in the name.
+    # goes from 0 to nsamplings-1). Keep it somewhere in the name,
+    # otherwise results for subsequent resamplings will overwrite
+    # the results of prior resamplings
     subtrj: resampling{nsampling}
+
+
+#---------------------------- PyInteraph -----------------------------#
+
 
 # pyinteraph options
 pyinteraph:
 
-  # hydrophobic contacts options but used for scPSN
+
+  #------------------------------ cmPSN ------------------------------#
+
+
+  # cmPSN options
+  cmpsn:
+
+    # Whether to run the cmPSN analysis
+    run: True
+
+    # cmPSN corrections to test
+    corrections: !!seq ["null", "rg"]
+
+    # Distance cut-offs to test 
+    dcuts: !!seq [4.5,5.0,5.5,6.0]
+
+    # Name of the output/log file
+    out: cmpsn.log
+
+    # Options to be passed directly to the pyinteraph command
+    options:
+      --ff-masses: charmm27
+      --verbose: True
+      --cmpsn: True
+      --cmpsn-residues: >-
+        ALA,ARG,ASN,ASP,CYS,GLN,GLU,HIS,ILE,LEU,LYS,MET,PHE,PRO,SER,
+        THR,TRP,TYR,VAL
+      --cmpsn-csv: cmpsn.csv
+      --cmpsn-graph: cmpsn-graph.dat
+
+
+  #------------------------------ acPSN ------------------------------#
+
+
+  # acPSN options
+  acpsn:
+
+    # Whether to run the acPSN analysis
+    run: True
+
+    # Interaction strength cut-offs to test
+    imins: !!seq [3.0]
+
+    # Distance cut-offs to test
+    dcuts: !!seq [4.5,5.0,5.5,6.0]
+
+    # Name of the output/log file
+    out: acpsn.log
+
+    # Options to be passed directly to the pyinteraph command
+    options:
+      --ff-masses: charmm27
+      --verbose: True
+      --acpsn: True
+      --acpsn-proxco: 1
+      --acpsn-ew: strength
+      --acpsn-nf-permissive: True
+      --acpsn-csv: acpsn.csv
+      --acpsn-graph: acpsn-graph.dat
+
+
+  #---------------------- Hydrophobic contacts -----------------------#
+
+
+  # Hydrophobic contacts options
   hc:
-    # whether to run the hydrophobic contacts analysis
+
+    # Whether to run the hydrophobic contacts analysis
     run: True 
-    # distance cut-offs to test
-    dcuts: !!seq [4.5,5,5.5,6.0]
-    # name of the output/log file
+    
+    # Distance cut-offs to test
+    dcuts: !!seq [4.5,5.0,5.5,6.0]
+    
+    # Name of the output/log file
     out: hc.log
-    # options to be passed directly to the pyinteraph command
+    
+    # Options to be passed directly to the pyinteraph command
     options:
       --ff-masses: charmm27
       --verbose: True
       --hydrophobic: True
-      --hc-residues: ALA,ARG,ASN,ASP,CYS,GLN,GLU,HIS,ILE,LEU,LYS,MET,PHE,PRO,SER,THR,TRP,TYR,VAL 
-      --hc-csv: hydrophobic-clusters.csv
+      --hc-residues: ALA,VAL,LEU,ILE,PHE,PRO,TRP,MET
+      --hc-csv: hc.csv
       --hc-graph: hc-graph.dat 
   
-      # salt bridges options
+
+  #-------------------------- Salt bridges ---------------------------#
+
+
+  # Salt bridges options
   sb:
-    # whether to run the salt bridges analysis
-    run: True 
-    # distance cut-offs to test
-    dcuts: !!seq [4.0,4.5,5.5]
-    # salt bridges mode
+
+    # Whether to run the salt bridges analysis
+    run: True
+
+    # Salt bridges modes
     modes: !!seq [different_charge]
-    # name of the output/log file
+    
+    # Distance cut-offs to test
+    dcuts: !!seq [4.0,4.5,5.0]
+
+    # Name of the output/log file
     out: sb.log
-    # options to be passed directly to the pyinteraph command
+    
+    # Options to be passed directly to the pyinteraph command
     options:
       --ff-masses: charmm27
       --verbose: True
       --salt-bridges: True
-      --sb-csv: salt-bridges.csv  
+      --sb-csv: sb.csv  
       --sb-graph: sb-graph.dat
+
+
+  #------------------------- Hydrogen bonds --------------------------#
+
   
-  # hydrogen bonds options
+  # Hydrogen bonds options
   hb:
-    # whether to run the hydrogen bonds analysis
+    
+    # Whether to run the hydrogen bonds analysis
     run: True
-    # distance cut-offs to test
-    dcuts: !!seq [3.0,3.5]
-    # hydrogen bonds modes (classes)
+
+    # Hydrogen bonds modes (classes)
     modes: !!seq [sc-sc]
-    # name of the output/log file
+    
+    # Distance cut-offs to test
+    dcuts: !!seq [3.5]
+
+    # Name of the output/log file
     out: hb.log
-    # options to be passed directly to the pyinteraph command
+    
+    # Options to be passed directly to the pyinteraph command
     options:
       --ff-masses: charmm27
       --verbose: True
       --hydrogen-bonds: True
-      --hb-csv: hydrogen-bonds.csv
+      --hb-csv: hb.csv
       --hb-graph: hb-graph.dat
+
+
+#--------------------------- Filter graph ----------------------------#
+
 
 # filter_graph options
 filter_graph:
-  # name of the output/log file
+  
+  # Name of the output/log file
   out: filter_graph.log
-  # persistence cut-offs to test
+  
+  # Occurrence cut-offs to test
   pcuts: !!seq [20.0]
-  # options to be passed directly to the filter_graph command
+  
+  # Options to be passed directly to the filter_graph command
   options:
     --output-dat: filtered_graph.dat
 
+
+#-------------------------- Graph analysis ---------------------------#
+
+
 # graph_analysis options
 graph_analysis:
+
+
+  #------------------------------ Hubs -------------------------------#
+
+
+  # Options for hubs
   hubs:
-    # whether to find hubs
+
+    # Whether to find the hubs
     run: True
-    # name of the output/log file
+    
+    # Name of the output/log file
     out: hubs.out
-    # options to be passed directly to the graph_analysis command
+    
+    # Options to be passed directly to the graph_analysis command
     options:
       --hubs: True
       --hubs-cutoff: 3
       --hubs-pdb: hubs.pdb
+
+
+  #---------------------- Connected components -----------------------#
+
+
+  # Options for connected components
   ccs:
-    # whether to find connected components
+    
+    # Whether to find the connected components
     run: True
-    # name of the output/log file
+    
+    # Name of the output/log file
     out: cc.out
-    # options to be passed directly to the graph_analysis command
+    
+    # Options to be passed directly to the graph_analysis command
     options:
       --components: True
       --components-pdb: cc.pdb
