@@ -3,12 +3,14 @@
 
 #    util.py
 #
-#    Utility functions for the pyinknife scripts.
+#    Utility functions for the PyInKnife2 executables.
 #
-#    Copyright (C) 2020 Valentina Sora 
+#    Copyright (C) 2023 Valentina Sora 
 #                       <sora.valentina1@gmail.com>
 #                       Juan Salamanca Viloria 
-#                       <juan.salamanca.viloria@gmail.com> 
+#                       <juan.salamanca.viloria@gmail.com>
+#                       Matteo Tiberti 
+#                       <matteo.tiberti@gmail.com> 
 #                       Elena Papaleo
 #                       <elenap@cancer.dk>
 #
@@ -27,7 +29,7 @@
 #    If not, see <http://www.gnu.org/licenses/>.
 
 
-# standard library
+# Standard library
 import argparse
 import collections
 import logging
@@ -35,52 +37,62 @@ import os
 import os.path
 from pathlib import Path
 import subprocess
-# third-party packages
+# Third-party packages
 import dask
 from dask import distributed
 from distributed import fire_and_forget
 from distributed.config import initialize_logging
 from pkg_resources import resource_filename, Requirement
-#import distributed.utils
 import matplotlib.pyplot as plt
 import MDAnalysis as mda
 import numpy as np
 import pandas as pd
 import seaborn as sns
 import yaml
-
+# PyInKnife
 from .dask_patches import reset_worker_logger
 
 
-# directory where the default configuration files are stored
-CONFIGDIR = resource_filename(Requirement("PyInKnife"), \
-                              "PyInKnife/config")
+#-------------------------- Default values ---------------------------#
 
-# default configuration file for pyinknife_run
-DEFCONFIG = os.path.join(CONFIGDIR, "run.yaml")
 
-# default configuration file for pyinknife_aggregate
-DEFCONFIGAGGR = os.path.join(CONFIGDIR, "aggregate.yaml")
+# Directory where the default configuration files are stored
+CONFIG_DIR = \
+    resource_filename(Requirement("PyInKnife"), \
+                      "PyInKnife/config")
 
-# default configuration files for pyinknife_plot
-DEFCONFIGCCS = os.path.join(CONFIGDIR, "plot_ccs_barplot.yaml")
-DEFCONFIGHUBS = os.path.join(CONFIGDIR, "plot_hubs_barplot.yaml")
+# Default configuration file for pyinknife_run
+DEF_CONFIG = os.path.join(CONFIG_DIR, "run.yaml")
+
+# Default configuration file for pyinknife_aggregate
+DEF_CONFIG_AGGR = os.path.join(CONFIG_DIR, "aggregate.yaml")
+
+# Default configuration files for pyinknife_plot
+DEF_CONFIG_CCS = os.path.join(CONFIG_DIR, "plot_ccs_barplot.yaml")
+DEF_CONFIG_HUBS = os.path.join(CONFIG_DIR, "plot_hubs_barplot.yaml")
 
 # pyinteraph/filter_graph/graph_analysis options
 # that should not be specified in the configuration
-NOOPTSDICT = \
+NO_OPTS_DICT = \
     {"pyinteraph": \
-        {"-h", "--help", "-s", "--top", "-t", "--trj", \
-         "-r", "--ref", "--sb-mode", "--hb-class", \
-         "-hc-co", "--hc-cutoff", "-sb-co", "--sb-cutoff", \
-         "-hb-co", "--hb-cutoff"}, \
+        {"-h", "--help",
+         "-s", "--top", "-t", "--trj", "-r", "--ref",
+         "--cmpsn-correction",
+         "--acpsn-imin",
+         "--sb-mode",
+         "--hb-class",
+         "--cmpsn-co", "--cmpsn-cutoff",
+         "--acpsn-co", "--acpsn-cutoff",
+         "-hc-co", "--hc-cutoff",
+         "-sb-co", "--sb-cutoff",
+         "-hb-co", "--hb-cutoff"},
     "filter_graph" : \
-        {"-d", "--input-dat", "-t", "--filter-threshold"}, \
+        {"-d", "--input-dat", "-t", "--filter-threshold"},
     "graph_analysis" : \
         {"-r", "--reference", "-a", "--adj-matrix"}}
 
 
-########################### UTILITY FUNCTIONS #########################
+#---------------------------- Miscellanea ----------------------------#
 
 
 def get_abspath(path):
@@ -88,265 +100,414 @@ def get_abspath(path):
     else return None.
     """
 
-    # return None if path is None
+    # If the path is None
     if path is None:
+
+        # Return None
         return path
 
-    # resolve symbolic links
+    # If the path is a symbolic link
     if os.path.islink(path):
+
+        # The path is the one the symbolic link points to
         path = os.readlink(path)
 
-    # return the absolute path (possibly after link resolution)
+    # Return the absolute path
     return os.path.abspath(path)
 
 
+#--------------------------- Run utilities ---------------------------#
 
-############################# RUN COMMANDS ############################
 
-
-def run_pyinteraph(trj, \
-                   top, \
-                   ref, \
-                   analysis, \
-                   mode, \
-                   co, \
-                   out, \
-                   wd, \
+def run_pyinteraph(trj,
+                   top,
+                   ref,
+                   analysis,
+                   mode,
+                   co,
+                   out,
+                   wd,
                    otherargs):
-    """Run the `pyinteraph` executable to generate the Protein
-    Structure Network.
+    """Run the ``pyinteraph`` executable to generate the PSN.
     """
 
-    # reset the distributed.worker logger
+
+    #---------------------------- Logging ----------------------------#
+
+    # Reset the distributed.worker logger
     logger = reset_worker_logger()
 
-    # make sure that the directory exists. If it does not, create it.
-    os.makedirs(wd, exist_ok = True)
-    # set the trajectory, topology, reference, analysis and
+    #----------------------- Working directory -----------------------#
+
+    # Make sure that the working directory exists. If it does not,
+    # create it.
+    os.makedirs(wd,
+                exist_ok = True)
+
+    #--------------------------- Arguments ---------------------------#
+
+    # Set the trajectory, topology, reference, analysis and
     # distance cut-off arguments
-    args = ["pyinteraph", "--trj", trj, "--top", top, \
-            "--ref", ref, "--" + analysis + "-co", str(co)]
-    # add the analysis mode/class if the analysis is either
-    # hydrogen bonds or salt bridges
-    if analysis == "hb":
+    args = \
+        ["pyinteraph", "--trj", trj, "--top", top,
+         "--ref", ref, "--" + analysis + "-co", str(co)]
+
+    # Add the analysis mode/class if the analysis requires it
+    if analysis == "cmpsn":
+        args.extend(["--cmpsn-correction", mode])
+    elif analysis == "acpsn":
+        args.extend(["--acpsn-imin", mode])
+    elif analysis == "hb":
         args.extend(["--hb-class", mode])
     elif analysis == "sb":
         args.extend(["--sb-mode", mode])
-    # launch the process
-    p = subprocess.Popen(args = args + otherargs, \
-                         stdout = open(out, "w"), \
-                         stderr = subprocess.STDOUT, \
+
+    #---------------------------- Process ----------------------------#
+    
+    # Launch the process
+    p = subprocess.Popen(args = args + otherargs,
+                         stdout = open(out, "w"),
+                         stderr = subprocess.STDOUT,
                          cwd = wd)
-    # wait for the process to complete
+    
+    # Wait for the process to complete
     p.wait()
-    # set the log string
+    
+    # Set the log string
     logstr = \
         f"pyinteraph run in {wd} exited with code {p.returncode}. " \
         f"Command line: {' '.join(p.args)}" 
-    # if the command completed successfully
+    
+    # If the command completed successfully
     if p.returncode == 0:
-        # inform the user only for debug purposes
+        
+        # Log as an information
         logger.info(logstr)
-    # if an error occurred
+    
+    # If an error occurred
     else:
-        # inform the user in any case 
+        
+        # Log as an error
         logger.error(logstr)
-    # get the name of the option defining the output matrix
-    outmatrix = "--" + analysis + "-graph"
-    # get the matrix full name
-    outmatrix_fullname = otherargs[otherargs.index(outmatrix)+1]
-    # divide the matrix name from the file extension
-    outmatrix_name, outmatrix_ext = outmatrix_fullname.split(".") 
-    # return the path to output matrix
-    return os.path.join(wd, outmatrix_name + "_all." + outmatrix_ext)
+
+    #------------------------- Output matrix -------------------------#
+    
+    # Get the name of the option defining the output matrix
+    out_matrix = "--" + analysis + "-graph"
+    
+    # Get the matrix full name
+    out_matrix_fullname = otherargs[otherargs.index(out_matrix)+1]
+    
+    # Divide the matrix name from the file extension
+    out_matrix_name, out_matrix_ext = out_matrix_fullname.split(".")
+    
+    # Return the path to output matrix
+    return os.path.join(wd,
+                        out_matrix_name + "_all." + out_matrix_ext)
 
 
-def run_filter_graph(mat, perco, out, wd, otherargs):
-    """Run the `filter_graph` executable to filter the Protein
-    Structure Network.
+def run_filter_graph(mat,
+                     perco,
+                     out,
+                     wd,
+                     otherargs):
+    """Run the ``filter_graph`` executable to filter the PSN.
     """
 
-    # reset the distributed.worker logger
+    #--------------------------- Logging -----------------------------#
+
+    # Reset the distributed.worker logger
     logger = reset_worker_logger()
 
-    # make sure that the directory exists. If it does not, create it.
-    os.makedirs(wd, exist_ok = True)
+    #----------------------- Working directory -----------------------#
+
+    # Make sure that the directory exists. If it does not, create it.
+    os.makedirs(wd,
+                exist_ok = True)
+
+    #--------------------------- Arguments ---------------------------#
+
     # set the matrix and persistence cutoff arguments
-    args = ["filter_graph", "--input-dat", mat, \
-            "--filter-threshold", str(perco)]
-    # launch the process
-    p = subprocess.Popen(args = args + otherargs, \
-                         stdout = open(out, "w"), \
-                         stderr = subprocess.STDOUT, \
+    args = \
+        ["filter_graph", "--input-dat", mat,
+         "--filter-threshold", str(perco)]
+
+    #---------------------------- Process ----------------------------#
+    
+    # Launch the process
+    p = subprocess.Popen(args = args + otherargs,
+                         stdout = open(out, "w"),
+                         stderr = subprocess.STDOUT,
                          cwd = wd)
-    # wait for the process to complete
+
+    # Wait for the process to complete
     p.wait()
-    # set the log string
+    
+    # Set the log string
     logstr = \
         f"filter_graph run in {wd} exited with code {p.returncode}. " \
         f"Command line: {' '.join(p.args)}"   
-    # if the command completed successfully
+    
+    # If the command completed successfully
     if p.returncode == 0:
-        # inform the user only for debug purposes
+        
+        # Log as an information
         logger.info(logstr)
-    # if an error occurred
+    
+    # If an error occurred
     else:
-        # inform the user in any case 
+        
+        # Log as an error
         logger.error(logstr)
-    # return the path to the output matrix
-    outmatrix = "--output-dat"
-    return os.path.join(wd, otherargs[otherargs.index(outmatrix)+1])
+
+    #------------------------- Output matrix -------------------------#
+    
+    # Set the option containing the output matrix
+    out_matrix_opt = "--output-dat"
+    
+    # Return the path to the output matrix
+    return os.path.join(wd,
+                        otherargs[otherargs.index(out_matrix_opt)+1])
 
 
-def run_graph_analysis(mat, ref, out, wd, otherargs):
-    """Run the `graph_analysis` executable to analyze the
-    Protein Structure Network.
+def run_graph_analysis(mat,
+                       ref,
+                       out,
+                       wd,
+                       otherargs):
+    """Run the ``graph_analysis`` executable to analyze the PSN.
     """
 
-    # reset the distributed.worker logger
+    #---------------------------- Logging ----------------------------#
+
+    # Reset the distributed.worker logger
     logger = reset_worker_logger()
 
-    # make sure that the directory exists. If it does not, create it.
-    os.makedirs(wd, exist_ok = True)
-    # set the adjacency matrix and the reference structure arguments
-    args = ["graph_analysis", "--adj-matrix", mat, "--reference", ref]
-    # launch the process
-    p = subprocess.Popen(args = args + otherargs, \
-                         stdout = open(out, "w"), \
-                         stderr = subprocess.STDOUT, \
+    #----------------------- Working directory -----------------------#
+
+    # Make sure that the directory exists. If it does not, create it.
+    os.makedirs(wd,
+                exist_ok = True)
+
+    #--------------------------- Arguments ---------------------------#
+
+    # Set the adjacency matrix and the reference structure arguments
+    args = \
+        ["graph_analysis", "--adj-matrix", mat, "--reference", ref]
+
+    #---------------------------- Process ----------------------------#
+
+    # Launch the process
+    p = subprocess.Popen(args = args + otherargs,
+                         stdout = open(out, "w"),
+                         stderr = subprocess.STDOUT,
                          cwd = wd)
-    # wait for the process to complete
+    
+    # Wait for the process to complete
     p.wait()
-    # set the log string
+    
+    # Set the log string
     logstr = \
         f"graph_analysis run in {wd} exited with code {p.returncode}. " \
         f"Command line: {' '.join(p.args)}"   
-    # if the command completed successfully
+    
+    # If the command completed successfully
     if p.returncode == 0:
-        # inform the user only for debug purposes
+        
+        # Log as an information
         logger.info(logstr)
-    # if an error occurred
+    
+    # If an error occurred
     else:
-        # inform the user in any case 
+        
+        # Log as an error
         logger.error(logstr)
-    # return the output file
+
+    #-------------------------- Output file --------------------------#
+    
+    # Return the output file
     return out
 
 
-######################### GET CONFIGURATIONS ##########################
+#--------------------------- Configuration ---------------------------#
 
 
-def get_pyinknife_configuration(configfile):
+def get_pyinknife_configuration(config_file):
+    """Get the configuration to run the PyInKnife pipeline.
+    """
 
+    #---------------------------- Logging ----------------------------#
 
-    # reset the distributed.worker logger
+    # Reset the distributed.worker logger
     logger = reset_worker_logger()
 
-    # recursively perform an action on items of
-    # a dictionary
-    def recursively_traverse(data, \
-                             action, \
-                             keys, \
-                             newkey = None, \
-                             func = None):
-        
-        # if data is a dictionary
-        if isinstance(data, dict):
-            # for each key, value pair
-            for k, v in list(data.items()):
-                if k in keys:
-                    if action == "pop":
-                        data.pop(k)
-                    # if value is a dictionary
-                    if isinstance(v, dict):
-                        if action == "add":
-                            # pass it as keyword arguments
-                            data[newkey] = func(**v)
-                    else:
-                        if action == "add":
-                            # pass it as argument
-                            data[newkey] = func(v)
-                else:
-                    # recursively check the
-                    # sub-dictionaries
-                    recursively_traverse(data = data[k], \
-                                         action = action, \
-                                         keys = keys, \
-                                         newkey = newkey, \
-                                         func = func)
+    #----------------------- Helper functions ------------------------#
 
-    # create a list of arguments made to be passed
-    # to subprocess as arguments of a command
+    # Recursively perform an action on items of a dictionary
+    def recursive_traverse(data,
+                           action,
+                           keys,
+                           new_key = None,
+                           func = None):
+        
+        # If 'data' is a dictionary
+        if isinstance(data, dict):
+            
+            # For each key, value pair
+            for k, v in list(data.items()):
+
+                # If the current key is in the list of key of
+                # interest
+                if k in keys:
+
+                    # If the 'remove' action was selected
+                    if action == "remove":
+
+                        # Remove the key and associated value
+                        # from the dictionary 
+                        data.pop(k)
+
+                    # If 'v' is a dictionary
+                    if isinstance(v, dict):
+                        
+                        # If the 'add' action was requested
+                        if action == "add":
+
+                            # Add a new key 'new_key' whose
+                            # associated value is the return
+                            # value of the 'func' function,
+                            # which takes the key, value pairs
+                            # in 'v' as keyword arguments                            
+                            data[new_key] = func(**v)
+
+                    # If 'v' is not a dictionary
+                    else:
+
+                        # If the 'add' action was requested
+                        if action == "add":
+
+                            # Add a new key 'new_key' whose
+                            # associated value is the return
+                            # value of the 'func' function,
+                            # which takes 'v' as a positional
+                            # argument
+                            data[new_key] = func(v)
+
+                # If the current key is not in the list of
+                # keys of interest 
+                else:
+                    
+                    # Recursively check the sub-dictionaries
+                    recursive_traverse(data = data[k],
+                                       action = action,
+                                       keys = keys,
+                                       new_key = new_key,
+                                       func = func)
+
+    # Create a list of arguments made to be passed
+    # to subprocess.Popen as arguments of a command
     def create_arguments_list(**kwargs):
-        # initialize the list of arguments to an empty list
+        
+        # Initialize the list of arguments to an empty list
         args = []
-        # for each option passed as keyword argument
+        
+        # For each option passed as a keyword argument
         for opt, val in kwargs.items():
-            # if the value of the argument is True
+
+            # If the value of the argument is True (we use the
+            # 'is' operator instead of '==' because we want to
+            # check if 'val' is the boolean 'True', not just
+            # whether it evaluates to 'True')
             if val is True:
-                # only append the option name since it is
-                # a flag
+                
+                # Only append the option name since it is a
+                # boolean flag
                 args.append(opt)
-            # if the value of the argument is False
+
+            # If the value of the argument is False
             elif val is False:
-                # ignore the option
+
+                # Ignore the option
                 continue
-            # if the value of the argument is a list
+
+            # If the value of the argument is a list
             elif isinstance(val, list):
-                # convert each item into a string and join
-                # them into a single string
-                args.extend([opt, ",".join([str(v) for v in val])])
-            # if the value is a string, int or float
+                
+                # Convert each item into a string, join them
+                # into a single string, and add the argument
+                # and its value to the list of arguments
+                args.extend(\
+                    [opt, ",".join([str(v) for v in val])])
+            
+            # If the value is a string, int or float
             elif isinstance(val, (str, int, float)):
-                # convert it to a string
+                
+                # Convert it to a string and add the argument
+                # and its value the list of arguments
                 args.extend([opt, str(val)])
-        # return the list of arguments
+        
+        # Return the list of arguments
         return args
 
-    # load the configuration
-    data = yaml.safe_load(open(configfile, "r"))
+    #--------------------- Configuration loading ---------------------#
 
-    # for each set of undesired options
-    for command, noopts in NOOPTSDICT.items():
-        # pop them from the list of options of the corresponding
+    # Load the configuration
+    config = yaml.safe_load(open(config_file, "r"))
+
+    #----------------------- Undesired options -----------------------#
+
+    # For each set of undesired options
+    for command, no_opts in NO_OPTS_DICT.items():
+        
+        # Remove them from the list of options of the corresponding
         # command
-        recursively_traverse(data = data[command], \
-                             action = "pop", \
-                             keys = noopts)
+        recursive_traverse(data = config[command],
+                           action = "remove",
+                           keys = no_opts)
 
-    # convert all dictionaries storing options into lists of
-    # options and add this list as an extra key
-    recursively_traverse(data = data, \
-                         action = "add", \
-                         keys = {"options"}, \
-                         newkey = "args", \
-                         func = create_arguments_list)
+    #----------------------- List of arguments -----------------------#
 
-    # return the new configuration
-    return data
+    # Convert all dictionaries storing options into lists of
+    # arguments and add this list as an extra key
+    recursive_traverse(data = config,
+                       action = "add",
+                       keys = {"options"},
+                       new_key = "args",
+                       func = create_arguments_list)
+
+    # Return the updated configuration
+    return config
 
 
-########################## READ/PROCESS DATA ##########################
+#------------------------- Read/process data -------------------------#
 
 
 def get_protein_selection_string(ncaa):
     """Select atoms belonging to protein residues in a Universe.
     """
 
-    # reset the distributed.worker logger
+    #---------------------------- Logging ----------------------------#
+
+    # Reset the distributed.worker logger
     logger = reset_worker_logger()
 
-    # the starting poin of the selection string is the 'protein'
+    #----------------------- Selection string ------------------------#
+
+    # The starting point of the selection string is the 'protein'
     # keyword
-    selstring = "protein"
-    # if the system contains noncanonical residues
+    sel_string = "protein"
+    
+    # If the system contains noncanonical residues
     if ncaa:
-        # add the residue names to the selection string
-        selstring += " or resname ".join(ncaa)
-    # inform the user about the selection string
-    logger.debug(f"Atom selection: {selstring}")
-    # return the selection string
-    return selstring
+        
+        # Add the residue names to the selection string
+        sel_string += " or resname ".join(ncaa)
+    
+    # Inform the user about the selection string
+    logger.info(f"Atom selection: '{sel_string}'.")
+    
+    # Return the selection string
+    return sel_string
 
 
 def get_frames_sets(trajectory, config):
@@ -354,370 +515,585 @@ def get_frames_sets(trajectory, config):
     subsets of frames) to perform the analysis on.
     """
 
-    # reset the distributed.worker logger
+    #---------------------------- Logging ----------------------------#
+    
+    # Reset the distributed.worker logger
     logger = reset_worker_logger()
 
-    # utility function that gets intervals corresponding
+    #----------------------- Helper functions ------------------------#
+
+    # Utility function that gets intervals corresponding
     # to subsets of frames obtained by jackknife resampling
-    def jackknife_resampling(nsamplings, ff, lf, step):
+    def jackknife_resampling(n_samplings,
+                             ff,
+                             lf,
+                             step):
+        
+        # Create an empty list to store the intervals        
         intervals = []
-        for ns in range(nsamplings):
-            # get the frame intervals
+
+        # For each sampling  
+        for ns in range(n_samplings):
+
+            # Get the frame interval
             interval = ((ff, (step*ns)), (step*(ns+1), lf))
-            # if the first chunck of data is excluded
+            
+            # If the first chunck of data is excluded
             if ns == 0:
-                # exclude the first half of the interval
+
+                # Exclude the first half of the interval
                 # since it is empty
                 interval = (interval[1],)
-            # if the last chunk of data is excluded
-            elif ns == nsamplings-1:
-                # exclude the second half of the interval
+
+            # If the last chunk of data is excluded
+            elif ns == n_samplings-1:
+
+                # Exclude the second half of the interval
                 # since it is either empty or contains extra
                 # frames (in case of uneven splitting the last
                 # chunk is the longest)
                 interval = (interval[0],)
-            # save the interval
+            
+            # Append the interval to the list
             intervals.append(interval)
-        # return the intervals
-        return intervals 
+        
+        # Return the intervals
+        return intervals
 
-    # get the directory names and the number of samplings
+    #------------------------- Configuration -------------------------#
+
+    # Get the directory names and the number of samplings
     # from the configuration
-    dirnames = config["dirnames"]
-    nsamplings = config["nsamplings"]
+    dir_names = config["dirnames"]
+    n_samplings = config["nsamplings"]
 
-    # first frame and last frame are indexed from 0 (frame
+    # Available resampling methods
+    AVALILABLE_RESAMPLING_METHODS = ["jackknife"]
+
+    #--------------------------- Intervals ---------------------------#
+
+    # The first and last frame are indexed from 0 (frame
     # attribute of MDAnalysis Timestep objects)
     ff, lf = trajectory[0].frame, trajectory[-1].frame
-    step = int(np.floor(len(trajectory) / nsamplings))
-    #print(step)
-    # initialize the intervals to the interval corresponding
+
+    # Get the step size
+    step = int(np.floor(len(trajectory) / n_samplings))
+
+    # Initialize the intervals as a list containing as the
+    # first and only element to the interval corresponding
     # to the full trajectory
     intervals = [((ff, lf),)]
-    # initialize the trajectory names to the name of the
-    # full trajectory (name of the directory where analyses of
-    # the full trajectory will be stored)
-    trjnames = [dirnames["trj"]]
-    # if no resampling requested
+
+    # Initialize the trajectory name as a list containing
+    # as the first and only element the name of the full
+    # trajectory
+    trj_names = [dir_names["trj"]]
+
+    # If no resampling is requested
     if not config["run"]:
-        # simply return the name and interval of the full trajectory
-        return zip(trjnames, intervals)
-    # if jackknife resampling has been requested
+
+        # Simply return the name and interval of the full trajectory
+        return zip(trj_names, intervals)
+
+    # If the resampling method is not among those available
+    if config["method"] not in AVALILABLE_RESAMPLING_METHODS:
+
+        # Raise an error
+        available_methods_str = \
+            ", ".join(f"'{m}'" for m in AVALILABLE_RESAMPLING_METHODS)
+        errstr = \
+            f"The '{config['method']}' resampling method is " \
+            f"not supported. So far, PyInKnife supports the " \
+            f"following resampling methods: {available_methods_str}."
+        raise ValueError(errstr)
+
+    # If jackknife resampling was requested
     if config["method"] == "jackknife":
-        # get the intervals corresponding to the subsets of frames
-        subintervals = jackknife_resampling(nsamplings, ff, lf, step)
-        # get the names corresponding to the subsets of frames
-        subtrjnames = []
-        for ns in range(nsamplings):
-            subtrjnames.append(\
-                dirnames["subtrj"].replace(r"{nsampling}", str(ns)))
-        # add intervals and names to the corresponding lists
-        intervals.extend(subintervals)
-        trjnames.extend(subtrjnames)
-    # return names and intervals as a zipped list (cannot return
+
+        # Get the intervals corresponding to the subsets of frames
+        sub_intervals = \
+            jackknife_resampling(n_samplings = n_samplings,
+                                 ff = ff,
+                                 lf = lf,
+                                 step = step)
+        
+        # Get the names corresponding to the subsets of frames
+        sub_trj_names = []
+        for ns in range(n_samplings):
+            sub_trj_names.append(\
+                dir_names["subtrj"].replace(r"{nsampling}", str(ns)))
+        
+        # Add intervals and names to the corresponding lists
+        intervals.extend(sub_intervals)
+        trj_names.extend(sub_trj_names)
+
+    # Return names and intervals as a zipped list (cannot return
     # a generator/iterator when passing the function to a Client)
-    return list(zip(trjnames, intervals))
+    return list(zip(trj_names, intervals))
 
 
-def parse_cc_out(outfile, firstccs):
+def parse_cc_out(out_file,
+                 first_ccs):
     """Parse the output file containing the list of
     connected components.
     """
+
+    #--------------------------- Constants ---------------------------#
     
-    # line that indicates the beginning of the list
-    # of connected components
+    # Line that indicates the beginning of the list of connected
+    # components
     START = "Connected component"
-    # start of the line where the nodes belonging to the
-    # connected component are stored
-    DATASTART = " ("
-    # how data are separated in a line
-    DATASEP = ")"
-    # how the different nodes are separated in the same
-    # connected component
-    NODESEP = ","
-    # index of the output Series
-    INDEX = "cc_num"
     
-    with open(outfile, "r") as f:
-        # create a list to store the raw data
-        rawdata = []
-        # initialize the flag to start parsing to False
+    # Start of the line where the nodes belonging to the connected
+    # component are stored
+    DATA_START = " ("
+    
+    # How data are separated in a line
+    DATA_SEP = ")"
+    
+    # How the different nodes are separated in the same connected
+    # component
+    NODE_SEP = ","
+    
+    # Index of the output Series
+    INDEX = "cc_num"
+
+    #------------------------- File parsing --------------------------#
+    
+    # Open the output file
+    with open(out_file, "r") as f:
+        
+        # Initialize an empty list to store the raw data
+        raw_data = []
+
+        # Initialize the flag to start parsing to False
         parse = False
-        # for each line 
+        
+        # For each line 
         for l in f:
-            # if you found the beginning of the list
+
+            # If we found the beginning of the list
             if l.startswith(START):
-                # start parsing
+
+                # Turn on the flag to start parsing
                 parse = True
-                # go to the next line
+
+                # Go to the next line
                 continue
-            # if parsing is enabled
-            if parse and l.startswith(DATASTART):
-                # get the nodes composing the connected component
-                cc = [i for i in l.split(DATASEP)[1].split(NODESEP) if i]
-                # save the number of nodes in the current connected
+
+            # If parsing is enabled and the line is the
+            # first line containing data of interest
+            if parse and l.startswith(DATA_START):
+                
+                # Get the nodes in the connected component
+                cc = \
+                    [i for i in l.split(DATA_SEP)[1].split(NODE_SEP) \
+                     if i]
+
+                # Save the number of nodes in the current connected
                 # component
-                rawdata.append(len(cc))
-        # sort the connected components by decreasing size and only
-        # take the first 'firstccs' components
-        ccs = sorted(rawdata, reverse = True)[:firstccs]
-        # create a Series with the number of each connected
+                raw_data.append(len(cc))
+        
+        # Sort the connected components by decreasing size and only
+        # take the first 'first_ccs' components
+        ccs = sorted(raw_data,
+                     reverse = True)[:first_ccs]
+
+        # Create a Series with the number of each connected
         # component associated to the number of nodes in it
-        series = pd.Series(data = ccs, \
-                           index = range(1, len(ccs)+1), \
+        series = pd.Series(data = ccs,
+                           index = range(1, len(ccs)+1),
                            dtype = np.int64)
-        # rename the index of the Series and return it
-        return series.rename_axis(index = INDEX)
+
+        # Rename the index of the Series
+        series = series.rename_axis(index = INDEX)
+
+        # Return the Series
+        return series
 
 
-def parse_hubs_out(outfile):
-    """Parse the output file containing the list of hubs."""
+def parse_hubs_out(out_file):
+    """Parse the output file containing the list of hubs.
+    """
 
-    # beginning of the line that indicates that no hubs
+    #--------------------------- Constants ---------------------------#
+
+    # Beginning of the line that indicates that no hubs
     # have been found
-    NOHUBS = "WARNING:root:No hubs"
-    # line that indicates the beginning of the list of hubs    
+    NO_HUBS = "WARNING:root:No hubs"
+    
+    # Line that indicates the beginning of the list of hubs    
     START = "Hubs:"
-    # how data are separated in a line
-    DATASEP = "\t"
+    
+    # How data are separated in a line
+    DATA_SEP = "\t"
+    
     # index of the output Series
     INDEX = "k"
+
+    #------------------------- File parsing --------------------------#
     
-    with open(outfile, "r") as f:
-        # create a default dictionary to store the hubs
+    with open(out_file, "r") as f:
+        
+        # Create a default dictionary to store the hubs
         hubs = collections.defaultdict(int)
-        # initialize the flag to start parsing to False       
+        
+        # Set the flag indicating when to start parsing to False     
         parse = False
-        # for each line
+
+        # For each line
         for l in f:
-            # if no hubs were found
-            if l.startswith(NOHUBS):
-                # return an empty Series
+
+            # If no hubs were found
+            if l.startswith(NO_HUBS):
+                
+                # Return an empty Series
                 return pd.Series()
-            # if you found the beginning of the list
+            
+            # If you found the beginning of the list
             if l.startswith(START):
-                # turn on the flag to start parsing
+                
+                # Turn on the flag to start parsing
                 parse = True
-                # skip the next line
+                
+                # Skip the next line
                 next(f)
-                # go to two lines after
+                
+                # Go to two lines after
                 continue
-            # if parsing is enabled
+
+            # If parsing is enabled
             if parse:
-                # get the degree of the hub
-                k = [i for i in l.rstrip("\n").split(DATASEP) if i][1]
-                # update the counter for the hubs having the
+                
+                # Get the degree of the hub
+                k = [i for i in l.rstrip("\n").split(DATA_SEP) if i][1]
+                
+                # Update the counter for the hubs having the
                 # same degree
                 hubs[int(k)] += 1
-        # create a Series with the degree of a hub associated
+        
+        # Create a Series with the hub degreeassociated
         # to the number of hubs having that degree (degree
         # distribution)
-        series = pd.Series(data = hubs, dtype = np.int64)
-        # rename the index of the Series and return it
-        return series.rename_axis(index = INDEX)
+        series = pd.Series(data = hubs,
+                           dtype = np.int64)
+        
+        # Rename the index of the Series
+        series = series.rename_axis(index = INDEX)
+
+        # Return the Series
+        return series
 
 
-############################# WRITE FILES #############################
+#---------------------------- Write files ----------------------------#
 
 
-def write_trj_subset(filename, trj, top, selstring, interval, wd):
+def write_trj_subset(filename,
+                     trj,
+                     top,
+                     sel_string,
+                     interval,
+                     wd):
     """Write a subset of a full trajectory containing only
     a subset of frames given as an interval. Can be used to
     write a trajectory or single frames.
     """
 
+    #---------------------------- Logging ----------------------------#
+
     # reset the distributed.worker logger
     logger = reset_worker_logger()
     
-    # make sure that the directory exists. If it does not, create it.
-    os.makedirs(wd, exist_ok = True) 
-    # create a new Universe from the topology and the trajectory
+    #----------------------- Working directory -----------------------#
+
+    # Make sure that the directory exists. If it does not, create it.
+    os.makedirs(wd,
+                exist_ok = True)
+
+    #---------------------------- System -----------------------------#
+
+    # Create a new Universe from the topology and the trajectory
     u = mda.Universe(top, trj)
-    # select the atoms
-    atoms = u.select_atoms(selstring)
-    # get the trajectory
+    
+    # Select the atoms
+    atoms = u.select_atoms(sel_string)
+    
+    # Get the trajectory
     trajectory = u.trajectory
-    # set the file path
+    
+    # Set the path to the file that will contain the trajectory
     filepath = os.path.join(wd, filename)
-    # create the writer
+
+    # Create the writer
     with mda.Writer(filepath, atoms.n_atoms) as Wset:
-        # for each portion of the interval
+        
+        # For each portion of the interval
         for start, end in interval:
-            # for each frame in the trajectory
+            
+            # For each frame in the interval
             for ts in trajectory[start:end]:
+
+                # Write out the coordinates
                 Wset.write(atoms)
-    # inform the user about the file written
-    logger.debug(f"Trajectory {filepath} written. " \
-                 f"Frames: {start}-{end}.")
-    # return the file path
+    
+    # Inform the user about the file written
+    infostr = \
+        f"Trajectory '{filepath}' written. Frames: {start}-{end}."
+    logger.info(infostr)
+
+    # Return the file path
     return filepath
 
 
-############################ GENERATE PLOTS ###########################
+#-------------------------- Generate plots ---------------------------#
 
 
-def get_interval(values, config):
-    """Get the numeric interval of a plot axis."""
+def get_axis_interval(values,
+                      config):
+    """Get the numeric interval of a plot axis.
+    """
 
+    #---------------------------- Values -----------------------------#
 
-    # reset the distributed.worker logger
-    logger = reset_worker_logger()
-    
-    # default to an empty configuration if no configuration was
-    # provided for the interval
-    inconfig = config.get("interval", {})
-    # default to a discrete interval if the type of interval
-    # was not provided
-    inttype = inconfig.get("type", "discrete")
-
-    # convert to a numpy array
+    # Convert the values to a NumPy array
     values = np.array(values)
-    # filter out NaN values
+
+    # Filter out NaN values
     values = values[np.logical_not(np.isnan(values))]
 
-    # if it is a discrete interval
-    if inttype == "discrete":
-        # default to rounding to the nearest integer
-        defrtn = 1
-        # default top value is the maximum of the values provided
-        deftop = int(max(values))
-        # default bottom value is the minimum of the values
-        # provided
-        defbottom = int(min(values))
-        # default number of steps is the number of values provided
-        defsteps = len(values)
-        # default spacing is the one between two steps
-        steps, defspacing = np.linspace(defbottom, \
-                                        deftop, \
-                                        defsteps, \
-                                        retstep = True)
-        # if only one step is present, defspacing will be
-        # NaN and it will throw errors
-        defspacing = int(defspacing) if len(steps) > 1 else 0
-        # the interval is not centered in zero by default
-        defciz = False
+    #------------------------- Configuration -------------------------#
 
-    # if it is a continuous interval
-    elif inttype == "continuous":
-        # default to rounding to the nearest 0.5
-        defrtn = 0.5
-        # default top value is the rounded up maximum of the values
-        deftop = np.ceil(max(values)*(1/defrtn))/(1/defrtn)
-        # default bottom value is the rounded down minimum of
-        # the values
-        defbottom = np.floor(min(values)*(1/defrtn))/(1/defrtn)
-        # default is 5 steps 
-        defsteps = 5
-        # default spacing is the one between two steps
-        steps, defspacing = np.linspace(defbottom, \
-                                        deftop, \
-                                        defsteps, \
-                                        retstep = True)[1]
-        # if only one step is present, defspacing will be
-        # NaN and it will throw errors
-        defspacing = defspacing if len(steps) > 1 else 0.0
-        # the interval is not centered in zero by default
-        defciz = False
+    # Get the top configuration
+    config = config.get("interval")
 
-    # get the configurations
-    rtn = inconfig.get("round_to_nearest", defrtn)
-    top = inconfig.get("top", deftop)
-    bottom = inconfig.get("bottom", defbottom)
-    steps = inconfig.get("steps", defsteps)
-    spacing = inconfig.get("spacing", defspacing)
-    ciz = inconfig.get("center_in_zero", defciz)
-    
-    # if the interval should be centered in zero
+    # If there is no configuration for the interval
+    if config is None:
+
+        # Raise an error
+        errstr = \
+            f"No 'interval' section was found in the " \
+            f"configuration for the {item}."
+        raise KeyError(errstr)
+
+    # Get the configurations
+    int_type = config.get("type")
+    rtn = config.get("round_to_nearest")
+    top = config.get("top")
+    bottom = config.get("bottom")
+    steps = config.get("steps")
+    spacing = config.get("spacing")
+    ciz = config.get("center_in_zero")
+
+    #--------------------------- Rounding ---------------------------#
+
+    # If no rounding was specified
+    if rtn is None:
+
+        # If the interval is discrete
+        if int_type == "discrete":
+
+            # Default to rounding to the nearest 1
+            rtn = 1
+
+        # If the interval is continuous
+        elif int_type == "continuous":
+        
+            # Default to rounding to the nearest 0.5
+            rtn = 0.5
+
+    #----------------------- Top/bottom values -----------------------#
+
+    # If the maximum of the ticks interval was not specified
+    if top is None:
+
+        # If the interval is discrete
+        if int_type == "discrete":
+            
+            # The default top value will be the
+            # maximum of the values provided
+            top = int(max(values))
+        
+        # If the interval is continuous
+        elif int_type == "continuous":
+            
+            # The default top value will be the
+            # rounded-up maximum of the values
+            top = \
+                np.ceil(max(values)*(1/rtn)) / (1/rtn)
+
+    # If the minimum of the ticks interval was not specified
+    if bottom is None:
+        
+        # If the interval is discrete
+        if int_type == "discrete":
+            
+            # The default bottom value is the
+            # minimim of the values provided
+            bottom = int(min(values))
+
+        # If the interval is continuous
+        elif int_type == "continuous":
+            
+            # The default bottom value is the rounded
+            # down minimum of the values
+            bottom = \
+                np.floor(min(values)*(1/rtn)) / (1/rtn)
+
+    # If the two extremes of the interval coincide
+    if top == bottom:
+        
+        # Return only one value
+        return np.array([bottom])
+
+    #----------------------------- Steps -----------------------------#
+
+    # If the number of steps the interval should have
+    # was not specified
+    if steps is None:
+
+        # The default number of steps is 10
+        steps = 10
+
+    #---------------------------- Spacing ----------------------------#
+
+    # If the interval spacing was not specified
+    if spacing is None:
+        
+        # If the interval is discrete
+        if int_type == "discrete":
+
+            # The default spacing is the one between two steps,
+            # rounded up
+            spacing = \
+                int(np.ceil(np.linspace(bottom,
+                                        top,
+                                        steps,
+                                        retstep = True)[1]))
+
+        # If the interval is continuous
+        elif int_type == "continuous":
+            
+            # The default spacing is the one between two steps
+            spacing = round(np.linspace(bottom,
+                                        top,
+                                        steps,
+                                        retstep = True)[1], 2)
+
+    #------------------------ Center in zero -------------------------#
+
+    # If the interval should be centered in zero
     if ciz:
-        # get the absolute values of top and bottom
-        abstop, absbottom = abs(top), abs(bottom)
-        # get the highest absolute value
-        absval = abstop if abstop > absbottom else absbottom
-        # top and bottom will be opposite numbers with
+        
+        # Get the highest absolute value
+        absval = \
+            np.ceil(top) if top > bottom else np.floor(bottom)
+        
+        # Top and bottom will be opposite numbers with
         # absolute value equal to absval
         top, bottom = absval, -absval
 
-    # if the spacing is 0
-    if spacing == 0.0:
-        # return a 1-step interval
-        return [bottom]
+        # Get an evenly-spaced interval between the bottom
+        # and top value
+        interval = np.linspace(bottom, top, steps)
+        
+        # Return the interval
+        return interval
 
-    # return the full interval
-    return np.arange(bottom, top + spacing, spacing)
+    # Get the interval
+    interval = np.arange(bottom, top + spacing, spacing)
+
+    # Return the interval
+    return interval
 
 
-def set_barplot(ax, \
-                df, \
-                y, \
-                yerr, \
+def set_barplot(ax,
+                df,
+                y,
+                yerr,
                 config):
-    """Set up a bar plot."""
+    """Set up a bar plot.
+    """
     
-    # number of bars to be drawn
-    numdata = len(df)
-    # get as many colors from the color palette as the
+    # Get the number of bars to be drawn
+    num_bars = len(df)
+    
+    # Get as many colors from the color palette as the
     # number of bars
-    color = sns.color_palette(config["palette"])[:numdata]
-    # plot the bars
-    bars = ax.bar(x = range(numdata), \
-                  height = df[y], \
-                  color = color, \
+    color = sns.color_palette(config["palette"])[:num_bars]
+    
+    # Plot the bars
+    bars = ax.bar(x = range(num_bars),
+                  height = df[y],
+                  color = color,
                   **config["bars"])
-    # plot error bars
-    ax.errorbar(x = range(numdata), \
-                y = df[y], \
-                yerr = df[yerr], \
+    
+    # Plot error bars
+    ax.errorbar(x = range(num_bars),
+                y = df[y],
+                yerr = df[yerr],
                 **config["yerr"])
-    # return the axis
+    
+    # Return the axis
     return ax
 
 
-def set_axis(ax, \
-             axis, \
-             config, \
-             ticks = None, \
+def set_axis(ax,
+             axis,
+             config,
+             ticks = None,
              ticklabels = None):
-    """Set up the x- or y-axis."""
+    """Set up the x- or y-axis.
+    """
     
-    # get the tick locations already on the axis 
-    ticklocs = plt.xticks()[0]
-    # default to the tick locations already present if
+    # Default to the tick locations already present if
     # no custom ones were provided
-    ticks = ticks if ticks is not None else ticklocs
-    # default to the string representations of the tick
-    # locations as labels if no custom labels were provided
-    ticklabels = ticklabels if ticklabels is not None \
-                 else [str(t) for t in ticks]
+    ticks = \
+        ticks if ticks is not None else plt.xticks()[0]
     
-    # if it is the x-axis
+    # Default to the string representations of the tick
+    # locations as labels if no custom labels were provided
+    ticklabels = \
+        ticklabels if ticklabels is not None \
+        else [str(t) for t in ticks]
+    
+    # If it is the x-axis
     if axis == "x":
-        # set the axis label
+        
+        # Set the axis label
         ax.set_xlabel(**config["label"])
-        # set the ticks
+        
+        # Set the ticks
         ax.set_xticks(ticks = ticks)
-        # set the tick labels
-        ax.set_xticklabels(labels = ticklabels, \
+        
+        # Set the tick labels
+        ax.set_xticklabels(labels = ticklabels,
                            **config["ticklabels"])
-        # set the axis boundaries
+        
+        # Set the axis boundaries
         ax.spines["bottom"].set_bounds(ticks[0], ticks[-1])
     
-    # if it is the y-axis
+    # If it is the y-axis
     elif axis == "y":
-        # set the axis label
+        
+        # Set the axis label
         ax.set_ylabel(**config["label"])
-        # set the ticks
+        
+        # Set the ticks
         ax.set_yticks(ticks = ticks)
-        # set the tick labels
+        
+        # Set the tick labels
         ax.set_yticklabels(labels = ticklabels, \
                            **config["ticklabels"])
-        # set the axis boundaries
+        
+        # Set the axis boundaries
         ax.spines["left"].set_bounds(ticks[0], ticks[-1])
 
-    # if a configuration for the tick parameters was provided
+    # If a configuration for the tick parameters was provided
     if config.get("tick_params"):
-        # apply the configuration to the ticks
-        ax.tick_params(axis = axis, \
+        
+        # Apply the configuration to the ticks
+        ax.tick_params(axis = axis,
                        **config["tick_params"])
 
-    # return the axis
+    # Return the axis
     return ax
