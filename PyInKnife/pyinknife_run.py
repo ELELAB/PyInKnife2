@@ -152,6 +152,9 @@ def main():
     # Get the module logger
     logger = log.getLogger(__name__)
 
+    # Configure the logger
+    log.basicConfig(level = log.INFO)
+
 
     #---------------------- PyInKnife pipeline -----------------------#
 
@@ -361,7 +364,7 @@ def main():
 
                 #-------------- Modes/Imins/Corrections --------------#
 
-                
+            
                 # If different analysis modes are requested
                 if "modes" in an_config.keys():
 

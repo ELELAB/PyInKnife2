@@ -150,20 +150,20 @@ def run_pyinteraph(trj,
     # distance cut-off arguments
     args = \
         ["pyinteraph", "--trj", trj, "--top", top,
-         "--ref", ref, "--" + analysis + "-co", str(co)]
+         "--ref", ref, f"--{analysis}-co", str(co)]
 
     # Add the analysis mode/class if the analysis requires it
     if analysis == "cmpsn":
         args.extend(["--cmpsn-correction", mode])
     elif analysis == "acpsn":
-        args.extend(["--acpsn-imin", mode])
+        args.extend(["--acpsn-imin", str(mode)])
     elif analysis == "hb":
         args.extend(["--hb-class", mode])
     elif analysis == "sb":
         args.extend(["--sb-mode", mode])
 
     #---------------------------- Process ----------------------------#
-    
+
     # Launch the process
     p = subprocess.Popen(args = args + otherargs,
                          stdout = open(out, "w"),
