@@ -42,10 +42,6 @@ import yaml
 from . import util
 
 
-# Get the module logger
-logger = log.getLogger(__name__)
-
-
 def main():
 
 
@@ -61,28 +57,32 @@ def main():
     
     # Add arguments
     c_help = \
-        f"Configuration file used to run the pipeline. " \
-        f"Default is {util.DEF_CONFIG}."
+        f"The configuration file that was used to run the " \
+        f"pipeline. The default is '{util.DEF_CONFIG}'."
     parser.add_argument("-c", "--configfile",
                         type = str,
                         default = util.DEF_CONFIG,
                         help = c_help)
 
     ca_help = \
-        f"Configuration file for data aggregation. " \
-        f"Default is {util.DEF_CONFIG_AGGR}."
+        f"The configuration file that will be used for data " \
+        f"aggregation. The default is '{util.DEF_CONFIG_AGGR}'."
     parser.add_argument("-ca", "--configfile-aggregate",
                         type = str,
                         default = util.DEF_CONFIG_AGGR,
                         help = ca_help)
 
-    d_help = "Directory where the pipeline was run."
+    d_help = \
+        "The directory where the pipeline was run. Use '.' to " \
+        "indicate that the pipeline was run in the current " \
+        "working directory."
     parser.add_argument("-d", "--rundir",
                         type = str,
                         required = True,
                         help = d_help)
 
-    od_help = "Directory where to save the output files."
+    od_help = \
+        "The directory where the output files will be saved."
     parser.add_argument("-od", "--outdir",
                         type = str,
                         required = True,
@@ -90,8 +90,9 @@ def main():
     
     firstccs_def = 5 
     firstccs_help = \
-        f"First # most populated connected components " \
-        f"to be considered. Default is {firstccs_def}."
+        f"The first # most populated connected components " \
+        f"to be considered when aggregating the data. " \
+        f"The default is {firstccs_def}."
     parser.add_argument("--firstccs",
                         type = int,
                         default = firstccs_def,
@@ -113,6 +114,9 @@ def main():
 
     # Get the module logger
     logger = log.getLogger(__name__)
+
+    # Configure the logger
+    log.basicConfig(level = log.INFO)
 
 
     #------------------------- Configuration -------------------------#

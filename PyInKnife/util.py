@@ -83,9 +83,9 @@ NO_OPTS_DICT = \
          "--hb-class",
          "--cmpsn-co", "--cmpsn-cutoff",
          "--acpsn-co", "--acpsn-cutoff",
-         "-hc-co", "--hc-cutoff",
-         "-sb-co", "--sb-cutoff",
-         "-hb-co", "--hb-cutoff"},
+         "--hc-co", "--hc-cutoff",
+         "--sb-co", "--sb-cutoff",
+         "--hb-co", "--hb-cutoff"},
     "filter_graph" : \
         {"-d", "--input-dat", "-t", "--filter-threshold"},
     "graph_analysis" : \

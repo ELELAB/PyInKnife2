@@ -45,10 +45,6 @@ import MDAnalysis as mda
 from . import util
 
 
-# Get the module logger
-logger = log.getLogger(__name__)
-
-
 def main():
 
 
@@ -64,33 +60,35 @@ def main():
     parser = argparse.ArgumentParser(description = description)
     
     # Add arguments to the parser
-    f_help = "Trajectory."
+    f_help = "The input trajectory."
     parser.add_argument("-f", "--trj",
                         type = str,
                         required = True,
                         help = f_help)
 
-    s_help = "Topology."
+    s_help = "The input topology."
     parser.add_argument("-s", "--top",
                         type = str,
                         required = True,
                         help = s_help)
 
-    r_help = "Reference structure."
+    r_help = "The input reference structure."
     parser.add_argument("-r", "--ref",
                         type = str,
                         default = None,
                         help = r_help)
 
     c_help = \
-        f"Configuration file used to run the pipeline. " \
-        f"Default is {util.DEF_CONFIG}."
+        f"The configuration file that will be used to run the  " \
+        f"pipeline. The fefault is '{util.DEF_CONFIG}'."
     parser.add_argument("-c", "--configfile",
                         type = str,
                         default = util.DEF_CONFIG,
                         help = c_help)
 
-    d_help = "Directory where to run the pipeline."
+    d_help = \
+        "The directory where the pipeline will be run. Use '.' to " \
+        "run in the current working directory."
     parser.add_argument("-d", "--rundir",
                         type = str,
                         required = True,
@@ -98,14 +96,16 @@ def main():
 
     n_default = 1
     n_help = \
-        f"Number of processes to be started in parallel. " \
-        f"Default is {n_default} process(es)."
+        f"The number of processes to start in parallel. " \
+        f"The default is {n_default} process(es)."
     parser.add_argument("-n", "--nproc",
                         type = int,
                         default = n_default,
                         help = n_help)
 
-    ncaa_help = "Noncanonical residues present in your system."
+    ncaa_help = \
+        "A list of the names of noncanonical residues " \
+        "present in the system, if any."
     parser.add_argument("-ncaa", "--noncanonical-residues",
                         type = str,
                         nargs = "*",
