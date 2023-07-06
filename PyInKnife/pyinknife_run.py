@@ -502,6 +502,7 @@ def main():
                                 futures.append(\
                                     client.submit(\
                                         util.run_graph_analysis,
+                                            analysis = net_analysis,
                                             mat = fg_mat,
                                             ref = pyin_ref,
                                             out = ga_out,

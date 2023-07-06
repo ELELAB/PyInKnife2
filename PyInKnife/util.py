@@ -75,21 +75,31 @@ DEF_CONFIG_HUBS = os.path.join(CONFIG_DIR, "plot_hubs_barplot.yaml")
 # that should not be specified in the configuration
 NO_OPTS_DICT = \
     {"pyinteraph": \
-        {"-h", "--help",
+        {# Option to show the help message and exit
+         "-h", "--help",
+         # Input topology, trajectory, reference structure
          "-s", "--top", "-t", "--trj", "-r", "--ref",
-         "--cmpsn-correction",
-         "--acpsn-imin",
-         "--sb-mode",
-         "--hb-class",
+         # cmPSN options
+         "-m", "--cmpsn", "--cmpsn-correction",
          "--cmpsn-co", "--cmpsn-cutoff",
+         # acPSN options
+         "-a", "--acpsn" "--acpsn-imin",
          "--acpsn-co", "--acpsn-cutoff",
+         # Hydrophobic contacts' options
+         "-f", "--hydrophobic",
          "--hc-co", "--hc-cutoff",
+         # Salt bridges' options
+         "-b", "--salt-bridges", "--sb-mode",
          "--sb-co", "--sb-cutoff",
+         # Hydrogen bonds' options
+         "-y", "--hydrogen-bonds", "--hb-class",
          "--hb-co", "--hb-cutoff"},
     "filter_graph" : \
         {"-d", "--input-dat", "-t", "--filter-threshold"},
     "graph_analysis" : \
-        {"-r", "--reference", "-a", "--adj-matrix"}}
+        {"-r", "--reference", "-a", "--adj-matrix",
+         "-u", "--hubs",
+         "-c", "--components"}}
 
 
 #---------------------------- Miscellanea ----------------------------#
@@ -152,15 +162,19 @@ def run_pyinteraph(trj,
         ["pyinteraph", "--trj", trj, "--top", top,
          "--ref", ref, f"--{analysis}-co", str(co)]
 
-    # Add the analysis mode/class if the analysis requires it
+    # Add the option to tell the 'pyinteraph' command to run the
+    # analysis and the option to define the analysis mode/class,
+    # if the analysis requires it
     if analysis == "cmpsn":
-        args.extend(["--cmpsn-correction", mode])
+        args.extend(["--cmpsn", "--cmpsn-correction", str(mode)])
     elif analysis == "acpsn":
-        args.extend(["--acpsn-imin", str(mode)])
-    elif analysis == "hb":
-        args.extend(["--hb-class", mode])
+        args.extend(["--acpsn", "--acpsn-imin", str(mode)])
+    elif analysis == "hc":
+        args.extend(["--hydrophobic"])
     elif analysis == "sb":
-        args.extend(["--sb-mode", mode])
+        args.extend(["--salt-bridges", "--sb-mode", str(mode)])
+    elif analysis == "hb":
+        args.extend(["--hydrogen-bonds", "--hb-class", str(mode)])
 
     #---------------------------- Process ----------------------------#
 
@@ -270,7 +284,8 @@ def run_filter_graph(mat,
                         otherargs[otherargs.index(out_matrix_opt)+1])
 
 
-def run_graph_analysis(mat,
+def run_graph_analysis(analysis,
+                       mat,
                        ref,
                        out,
                        wd,
@@ -294,6 +309,18 @@ def run_graph_analysis(mat,
     # Set the adjacency matrix and the reference structure arguments
     args = \
         ["graph_analysis", "--adj-matrix", mat, "--reference", ref]
+
+    # If the analysis is the analysis of hubs
+    if analysis == "hubs":
+
+        # Add the appropriate argument to the list of arguments
+        args.extend(["--hubs"])
+
+    # If the analysis is the analysis of connected components
+    elif analysis == "ccs":
+
+        # Add the appropriate argument to the list of arguments
+        args.extend(["--components"])
 
     #---------------------------- Process ----------------------------#
 
