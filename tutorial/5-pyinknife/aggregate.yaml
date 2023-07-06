@@ -1,0 +1,41 @@
+
+
+#------------------------------- Output ------------------------------#
+
+
+# Output options
+output:
+  
+  # File extension
+  extension: ".csv"
+  
+  # Field separator
+  sep: ","
+  
+  # Index of the column containing the row names
+  indexcol: 0
+
+
+#---------------------------- Data frame -----------------------------#
+
+  
+# Name of the columns containing across-resamplings statistics
+columns:
+
+  # Name of the column containing the mean
+  mean: mean_resamplings
+
+  # Name of the column containing the median
+  median: median_resamplings
+
+  # Name of the column containing the minimum value found
+  min: min_resamplings
+
+  # Name of the column containing the maximum value found
+  max: max_resamplings
+
+  # Name of the column containing the standard deviation
+  std: std_resamplings
+
+  # Name of the column containing the standard error of the mean
+  sem: sem_resamplings

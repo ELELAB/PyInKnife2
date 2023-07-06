@@ -1,0 +1,21 @@
+Traceback (most recent call last):
+  File "/data/user/valentina/environments/python3.7-pyinknife/lib/python3.7/site-packages/pyinteraph-1.1-py3.7-linux-x86_64.egg/pyinteraph/filter_graph.py", line 62, in process_matrices
+    matrices.append(np.loadtxt(fname))
+  File "/data/user/valentina/environments/python3.7-pyinknife/lib/python3.7/site-packages/numpy/lib/npyio.py", line 1067, in loadtxt
+    fh = np.lib._datasource.open(fname, 'rt', encoding=encoding)
+  File "/data/user/valentina/environments/python3.7-pyinknife/lib/python3.7/site-packages/numpy/lib/_datasource.py", line 193, in open
+    return ds.open(path, mode, encoding=encoding, newline=newline)
+  File "/data/user/valentina/environments/python3.7-pyinknife/lib/python3.7/site-packages/numpy/lib/_datasource.py", line 533, in open
+    raise IOError("%s not found." % path)
+OSError: /data/user/shared_projects/psn_projects/case_study_pyinteraph2/pyinknife2_tutorial/5-pyinknife/sb/resampling0/sb/different_charge/4.0/sb-graph_all.dat not found.
+
+During handling of the above exception, another exception occurred:
+
+Traceback (most recent call last):
+  File "/data/user/valentina/environments/python3.7-pyinknife/bin/filter_graph", line 33, in <module>
+    sys.exit(load_entry_point('pyinteraph==1.1', 'console_scripts', 'filter_graph')())
+  File "/data/user/valentina/environments/python3.7-pyinknife/lib/python3.7/site-packages/pyinteraph-1.1-py3.7-linux-x86_64.egg/pyinteraph/filter_graph.py", line 401, in main
+    matrices = process_matrices(fnames = options.datfiles)
+  File "/data/user/valentina/environments/python3.7-pyinknife/lib/python3.7/site-packages/pyinteraph-1.1-py3.7-linux-x86_64.egg/pyinteraph/filter_graph.py", line 67, in process_matrices
+    raise IOError(errstr)
+OSError: Could not open file /data/user/shared_projects/psn_projects/case_study_pyinteraph2/pyinknife2_tutorial/5-pyinknife/sb/resampling0/sb/different_charge/4.0/sb-graph_all.dat, or file in wrong format.

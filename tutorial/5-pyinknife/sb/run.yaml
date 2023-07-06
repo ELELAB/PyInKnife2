@@ -1,0 +1,138 @@
+
+
+#------------------------------ System -------------------------------#
+
+
+# Name of the file that will be used as topology by PyInteraph
+# (this file will not be created if a reference structure is
+# passed by the user, since the user-provided topology will
+# be used as topology in this case)
+pyintop: top.pdb
+
+# Name of the file that will be used as reference by PyInteraph
+# (this file will not be created if a reference structure is
+# passed by the user, since the user-provided reference structure
+# will be used as reference)
+pyinref: ref.pdb
+
+
+#---------------------------- Resampling -----------------------------#
+
+
+# Resampling options
+resampling:
+  
+  # Whether to run the resampling
+  run: True
+  
+  # Resampling method to be used
+  method: jackknife
+  
+  # Number of resamplings to be performed
+  nsamplings: 10
+  
+  # Names of the directories where the analyses for the full
+  # trajectory and the resampled trajectories (if any) will be
+  # performed
+  dirnames:
+
+    # Name of the directory used for the full trajectory
+    trj: trjfull
+
+    # {nsampling} is a placeholder for each sampling number (that
+    # goes from 0 to nsamplings-1). Keep it somewhere in the name,
+    # otherwise results for subsequent resamplings will overwrite
+    # the results of prior resamplings
+    subtrj: resampling{nsampling}
+
+
+#---------------------------- PyInteraph -----------------------------#
+
+
+# pyinteraph options
+pyinteraph:
+  
+
+  #-------------------------- Salt bridges ---------------------------#
+
+
+  # Salt bridges options
+  sb:
+
+    # Whether to run the salt bridges analysis
+    run: True
+
+    # Salt bridges modes
+    modes: [different_charge]
+    
+    # Distance cut-offs to test
+    dcuts: [4.0,4.5,5.0,5.5]
+
+    # Name of the output/log file
+    out: sb.log
+    
+    # Options to be passed directly to the pyinteraph command
+    options:
+      --ff-masses: charmm27
+      --verbose: True
+      --sb-csv: sb.csv  
+      --sb-graph: sb-graph.dat
+
+
+#--------------------------- Filter graph ----------------------------#
+
+
+# filter_graph options
+filter_graph:
+  
+  # Name of the output/log file
+  out: filter_graph.log
+  
+  # Occurrence cut-offs to test
+  pcuts: [0.0]
+  
+  # Options to be passed directly to the filter_graph command
+  options:
+    --output-dat: filtered_graph.dat
+
+
+#-------------------------- Graph analysis ---------------------------#
+
+
+# graph_analysis options
+graph_analysis:
+
+
+  #------------------------------ Hubs -------------------------------#
+
+
+  # Options for hubs
+  hubs:
+
+    # Whether to find the hubs
+    run: True
+    
+    # Name of the output/log file
+    out: hubs.out
+    
+    # Options to be passed directly to the graph_analysis command
+    options:
+      --hubs-cutoff: 3
+      --hubs-pdb: hubs.pdb
+
+
+  #---------------------- Connected components -----------------------#
+
+
+  # Options for connected components
+  ccs:
+    
+    # Whether to find the connected components
+    run: True
+    
+    # Name of the output/log file
+    out: ccs.out
+    
+    # Options to be passed directly to the graph_analysis command
+    options:
+      --components-pdb: ccs.pdb

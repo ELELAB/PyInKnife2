@@ -1,0 +1,106 @@
+
+
+#------------------------------- Output ------------------------------#
+
+
+# Output file settings (passed to 'matplotlib.pyplot.savefig')
+output:
+  
+  # DPI (the higher the number, the higher the resolution)
+  dpi: 900
+  
+  # Whether to have a transparent or opaque background
+  transparent: True
+  
+  # Format of the output file
+  format: "pdf"
+  
+  # Bbox in inches. If 'tight', use a tight layout for the figure
+  bbox_inches: "tight"
+
+
+#------------------------------- Barplot -----------------------------#
+
+
+# Bar plot settings
+plot:
+  
+  # Settings for the bars
+  bar:
+    
+    # Color palette (either a Seaborn named palette or a list of
+    # HEX codes) to be used for the bars
+    palette: "colorblind"
+    
+    # Settings for each bar
+    bars:
+      
+      # Where the bottom of the bar lies
+      bottom: 0
+      
+      # Bar alignment
+      align: "center"
+    
+    # Settings for the error bars
+    yerr:
+      
+      # Marker format
+      fmt: "."
+      
+      # Cap size
+      capsize: 2
+      
+      # Color of the error bar/marker
+      color: "black"
+    
+  # X-axis settings  
+  xaxis:
+    
+    # Label settings (passed to
+    # 'matplotlib.axes.Axes.set_xlabel')
+    label:
+
+      # Text for the label
+      xlabel: "Hub degree"
+    
+    # Tick labels settings (passed to 
+    # 'matplotlib.axes.Axes.set_xticklabels')
+    ticklabels:
+      
+      # Tick label rotation
+      rotation: 90
+
+    # Settings for the interval represented on the axis
+    interval:
+
+      # Type of interval ('discrete' or 'continuous')
+      type: "discrete"
+    
+  # Y-axis settings
+  yaxis:
+    
+    # Label settings (passed to
+    # 'matplotlib.axes.Axes.set_ylabel')
+    label:
+
+      # Text for the label
+      ylabel: "# of hubs"
+    
+    # Tick labels settings (passed to
+    # 'matplotlib.axes.Axes.set_yticklabels')
+    ticklabels:
+      
+      # Tick label rotation
+      rotation: 0
+
+    # Settings for the interval represented on the axis
+    interval:
+
+      # Type of interval ('discrete' or 'continuous')      
+      type: "discrete"
+
+      # Values' spacing
+      spacing: 5
+
+      # Lowest value of the interval
+      bottom: 0

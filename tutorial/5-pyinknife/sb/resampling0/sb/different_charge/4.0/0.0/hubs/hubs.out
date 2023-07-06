@@ -1,0 +1,22 @@
+/data/user/valentina/environments/python3.7-pyinknife/lib/python3.7/site-packages/MDAnalysis/coordinates/chemfiles.py:108: DeprecationWarning: distutils Version classes are deprecated. Use packaging.version instead.
+  MIN_CHEMFILES_VERSION = LooseVersion("0.9")
+ERROR:root:Could not build the graph from the files provided. Exiting ...
+Traceback (most recent call last):
+  File "/data/user/valentina/environments/python3.7-pyinknife/lib/python3.7/site-packages/pyinteraph-1.1-py3.7-linux-x86_64.egg/pyinteraph/graph_analysis.py", line 81, in build_graph
+    data = np.loadtxt(fname)
+  File "/data/user/valentina/environments/python3.7-pyinknife/lib/python3.7/site-packages/numpy/lib/npyio.py", line 1067, in loadtxt
+    fh = np.lib._datasource.open(fname, 'rt', encoding=encoding)
+  File "/data/user/valentina/environments/python3.7-pyinknife/lib/python3.7/site-packages/numpy/lib/_datasource.py", line 193, in open
+    return ds.open(path, mode, encoding=encoding, newline=newline)
+  File "/data/user/valentina/environments/python3.7-pyinknife/lib/python3.7/site-packages/numpy/lib/_datasource.py", line 533, in open
+    raise IOError("%s not found." % path)
+OSError: /data/user/shared_projects/psn_projects/case_study_pyinteraph2/pyinknife2_tutorial/5-pyinknife/sb/resampling0/sb/different_charge/4.0/0.0/filtered_graph.dat not found.
+
+During handling of the above exception, another exception occurred:
+
+Traceback (most recent call last):
+  File "/data/user/valentina/environments/python3.7-pyinknife/lib/python3.7/site-packages/pyinteraph-1.1-py3.7-linux-x86_64.egg/pyinteraph/graph_analysis.py", line 312, in main
+    identifiers, G = build_graph(args.dat, pdb = args.top)
+  File "/data/user/valentina/environments/python3.7-pyinknife/lib/python3.7/site-packages/pyinteraph-1.1-py3.7-linux-x86_64.egg/pyinteraph/graph_analysis.py", line 84, in build_graph
+    raise ValueError(errstr.format(fname))
+ValueError: Could not load file /data/user/shared_projects/psn_projects/case_study_pyinteraph2/pyinknife2_tutorial/5-pyinknife/sb/resampling0/sb/different_charge/4.0/0.0/filtered_graph.dat or wrong file format.
