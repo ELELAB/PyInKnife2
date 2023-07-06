@@ -95,9 +95,13 @@ NO_OPTS_DICT = \
          "-y", "--hydrogen-bonds", "--hb-class",
          "--hb-co", "--hb-cutoff"},
     "filter_graph" : \
-        {"-d", "--input-dat", "-t", "--filter-threshold"},
+        {"-h", "--help",
+         "-d", "--input-dat",
+         "-t", "--filter-threshold"},
     "graph_analysis" : \
-        {"-r", "--reference", "-a", "--adj-matrix",
+        {"-h", "--help",
+         "-r", "--reference",
+         "-a", "--adj-matrix",
          "-u", "--hubs",
          "-c", "--components"}}
 
