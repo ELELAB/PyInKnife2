@@ -1,0 +1,9 @@
+/data/user/valentina/environments/python3.7-pyinknife/lib/python3.7/site-packages/MDAnalysis/coordinates/chemfiles.py:108: DeprecationWarning: distutils Version classes are deprecated. Use packaging.version instead.
+  MIN_CHEMFILES_VERSION = LooseVersion("0.9")
+INFO: Will use 'name OH or name OG or name NE2 or name OG1 or name NE or name N or name ND1 or name NZ or name NH1 or name NH2 or name OW or name ND2 or name SG or name OH2 or name NE1' as selection for donors.
+INFO: Will use 'name OH or name OG or name OD1 or name OD2 or name OG1 or name O or name ND1 or name NE2 or name OE2 or name OW or name SG or name OE1 or name OH2 or name SD' as selection for acceptors.
+INFO: Running the hydrogen bonds analysis...
+INFO: Choosing frames to analyze
+INFO: Starting preparation
+INFO: Finishing up
+INFO: Done! Finalizing...

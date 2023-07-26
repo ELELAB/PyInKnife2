@@ -1,0 +1,28 @@
+/data/user/valentina/environments/python3.7-pyinknife/lib/python3.7/site-packages/MDAnalysis/coordinates/chemfiles.py:108: DeprecationWarning: distutils Version classes are deprecated. Use packaging.version instead.
+  MIN_CHEMFILES_VERSION = LooseVersion("0.9")
+Traceback (most recent call last):
+  File "/data/user/valentina/environments/python3.7-pyinknife/bin/pyinteraph", line 33, in <module>
+    sys.exit(load_entry_point('pyinteraph==1.1', 'console_scripts', 'pyinteraph')())
+  File "/data/user/valentina/environments/python3.7-pyinknife/lib/python3.7/site-packages/pyinteraph-1.1-py3.7-linux-x86_64.egg/pyinteraph/main.py", line 733, in main
+    uni = mda.Universe(top, trj)
+  File "/data/user/valentina/environments/python3.7-pyinknife/lib/python3.7/site-packages/MDAnalysis/core/universe.py", line 356, in __init__
+    in_memory_step=in_memory_step, **kwargs)
+  File "/data/user/valentina/environments/python3.7-pyinknife/lib/python3.7/site-packages/MDAnalysis/core/universe.py", line 547, in load_new
+    self.trajectory = reader(filename, format=format, **kwargs)
+  File "/data/user/valentina/environments/python3.7-pyinknife/lib/python3.7/site-packages/MDAnalysis/coordinates/XDR.py", line 149, in __init__
+    self._load_offsets()
+  File "/data/user/valentina/environments/python3.7-pyinknife/lib/python3.7/site-packages/MDAnalysis/coordinates/XDR.py", line 195, in _load_offsets
+    data = read_numpy_offsets(fname)
+  File "/data/user/valentina/environments/python3.7-pyinknife/lib/python3.7/site-packages/MDAnalysis/coordinates/XDR.py", line 84, in read_numpy_offsets
+    return {k: v for k, v in np.load(filename).items()}
+  File "/data/user/valentina/environments/python3.7-pyinknife/lib/python3.7/site-packages/numpy/lib/npyio.py", line 433, in load
+    pickle_kwargs=pickle_kwargs)
+  File "/data/user/valentina/environments/python3.7-pyinknife/lib/python3.7/site-packages/numpy/lib/npyio.py", line 189, in __init__
+    _zip = zipfile_factory(fid)
+  File "/data/user/valentina/environments/python3.7-pyinknife/lib/python3.7/site-packages/numpy/lib/npyio.py", line 112, in zipfile_factory
+    return zipfile.ZipFile(file, *args, **kwargs)
+  File "/usr/lib/python3.7/zipfile.py", line 1225, in __init__
+    self._RealGetContents()
+  File "/usr/lib/python3.7/zipfile.py", line 1292, in _RealGetContents
+    raise BadZipFile("File is not a zip file")
+zipfile.BadZipFile: File is not a zip file

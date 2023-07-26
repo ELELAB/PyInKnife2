@@ -3,12 +3,14 @@
 
 #    dask_patches.py
 #
-#    Dask monkey patches.
+#    Patches for Dask.
 #
-#    Copyright (C) 2020 Valentina Sora 
+#    Copyright (C) 2023 Valentina Sora 
 #                       <sora.valentina1@gmail.com>
 #                       Juan Salamanca Viloria 
-#                       <juan.salamanca.viloria@gmail.com> 
+#                       <juan.salamanca.viloria@gmail.com>
+#                       Matteo Tiberti 
+#                       <matteo.tiberti@gmail.com>
 #                       Elena Papaleo
 #                       <elenap@cancer.dk>
 #
@@ -26,36 +28,48 @@
 #    License along with this program. 
 #    If not, see <http://www.gnu.org/licenses/>.
 
+
+# Standard library
+import logging as log
+# Third-party packages
 import dask
 import distributed.utils
-import logging
 
 
-# to address a bug that resets the distributed.worker
+# To address a bug that resets the distributed.worker
 # logger to WARNING level when a task is launched on
 # the worker, no matter what the configuration was
 def reset_worker_logger():
-    """Utility function to reset a Dask logger handlers
+    """Utility function to reset a Dask logger's handlers
     and level to desired values.
     """
 
-    # new level
-    NEWLEVEL = logging.INFO
-    # get the logger
-    logger = logging.getLogger("distributed.worker")
-    # define the handlers to keep
-    htokeep = [h for h in logger.handlers if type(h).__name__ == \
-               distributed.utils.DequeHandler.__name__]
-    # remove all the handlers
+    # Set the new logging level
+    NEW_LEVEL = log.INFO
+    
+    # Get the logger
+    logger = log.getLogger("distributed.worker")
+    
+    # Define the handlers to keep
+    handlers_to_keep = \
+        [h for h in logger.handlers if type(h).__name__ == \
+         distributed.utils.DequeHandler.__name__]
+    
+    # Remove all the handlers
     for h in logger.handlers:
         logger.removeHandler(h)
-    # add the handlers to keep
-    for h in htokeep:
-        # set the new level
-        h.setLevel(NEWLEVEL)
-        # add the handler to the logger
+    
+    # Add the handlers to keep
+    for h in handlers_to_keep:
+        
+        # Set the new level
+        h.setLevel(NEW_LEVEL)
+        
+        # Add the handler to the logger
         logger.addHandler(h)
-    # reset the logger level to the new level
-    logger.setLevel(NEWLEVEL)
-    # return the new logger
+    
+    # Reset the logger level to the new level
+    logger.setLevel(NEW_LEVEL)
+    
+    # Return the new logger
     return logger

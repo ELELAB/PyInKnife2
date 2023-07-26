@@ -1,0 +1,382 @@
+Graph loaded! 163 nodes, 65 edges
+Node list: 
+SYSTEM-10ILE
+SYSTEM-100MET
+SYSTEM-101ALA
+SYSTEM-102ASN
+SYSTEM-103ALA
+SYSTEM-104GLY
+SYSTEM-105PRO
+SYSTEM-106ASN
+SYSTEM-107THR
+SYSTEM-108ASN
+SYSTEM-109GLY
+SYSTEM-11ALA
+SYSTEM-110SER
+SYSTEM-111GLN
+SYSTEM-112PHE
+SYSTEM-113PHE
+SYSTEM-114ILE
+SYSTEM-115CYS
+SYSTEM-116THR
+SYSTEM-117ALA
+SYSTEM-118LYS
+SYSTEM-119THR
+SYSTEM-12VAL
+SYSTEM-120GLU
+SYSTEM-121TRP
+SYSTEM-122LEU
+SYSTEM-123ASP
+SYSTEM-124GLY
+SYSTEM-125LYS
+SYSTEM-126HIS
+SYSTEM-127VAL
+SYSTEM-128VAL
+SYSTEM-129PHE
+SYSTEM-13ASP
+SYSTEM-130GLY
+SYSTEM-131LYS
+SYSTEM-132VAL
+SYSTEM-133LYS
+SYSTEM-134GLU
+SYSTEM-135GLY
+SYSTEM-136MET
+SYSTEM-137ASN
+SYSTEM-138ILE
+SYSTEM-139VAL
+SYSTEM-14GLY
+SYSTEM-140GLU
+SYSTEM-141ALA
+SYSTEM-142MET
+SYSTEM-143GLU
+SYSTEM-144ARG
+SYSTEM-145PHE
+SYSTEM-146GLY
+SYSTEM-147SER
+SYSTEM-148ARG
+SYSTEM-149ASN
+SYSTEM-15GLU
+SYSTEM-150GLY
+SYSTEM-151LYS
+SYSTEM-152THR
+SYSTEM-153SER
+SYSTEM-154LYS
+SYSTEM-155LYS
+SYSTEM-156ILE
+SYSTEM-157THR
+SYSTEM-158ILE
+SYSTEM-159ALA
+SYSTEM-16PRO
+SYSTEM-160ASP
+SYSTEM-161CYS
+SYSTEM-162GLY
+SYSTEM-163GLN
+SYSTEM-164LEU
+SYSTEM-17LEU
+SYSTEM-18GLY
+SYSTEM-19ARG
+SYSTEM-2VAL
+SYSTEM-20VAL
+SYSTEM-21SER
+SYSTEM-22PHE
+SYSTEM-23GLU
+SYSTEM-24LEU
+SYSTEM-25PHE
+SYSTEM-26ALA
+SYSTEM-27ASP
+SYSTEM-28LYS
+SYSTEM-29VAL
+SYSTEM-3ASN
+SYSTEM-30PRO
+SYSTEM-31LYS
+SYSTEM-32THR
+SYSTEM-33ALA
+SYSTEM-34GLU
+SYSTEM-35ASN
+SYSTEM-36PHE
+SYSTEM-37ARG
+SYSTEM-38ALA
+SYSTEM-39LEU
+SYSTEM-4PRO
+SYSTEM-40SER
+SYSTEM-41THR
+SYSTEM-42GLY
+SYSTEM-43GLU
+SYSTEM-44LYS
+SYSTEM-45GLY
+SYSTEM-46PHE
+SYSTEM-47GLY
+SYSTEM-48TYR
+SYSTEM-49LYS
+SYSTEM-5THR
+SYSTEM-50GLY
+SYSTEM-51SER
+SYSTEM-52CYS
+SYSTEM-53PHE
+SYSTEM-54HIS
+SYSTEM-55ARG
+SYSTEM-56ILE
+SYSTEM-57ILE
+SYSTEM-58PRO
+SYSTEM-59GLY
+SYSTEM-6VAL
+SYSTEM-60PHE
+SYSTEM-61MET
+SYSTEM-62CYS
+SYSTEM-63GLN
+SYSTEM-64GLY
+SYSTEM-65GLY
+SYSTEM-66ASP
+SYSTEM-67PHE
+SYSTEM-68THR
+SYSTEM-69ARG
+SYSTEM-7PHE
+SYSTEM-70HIS
+SYSTEM-71ASN
+SYSTEM-72GLY
+SYSTEM-73THR
+SYSTEM-74GLY
+SYSTEM-75GLY
+SYSTEM-76LYS
+SYSTEM-77SER
+SYSTEM-78ILE
+SYSTEM-79TYR
+SYSTEM-8PHE
+SYSTEM-80GLY
+SYSTEM-81GLU
+SYSTEM-82LYS
+SYSTEM-83PHE
+SYSTEM-84GLU
+SYSTEM-85ASP
+SYSTEM-86GLU
+SYSTEM-87ASN
+SYSTEM-88PHE
+SYSTEM-89ILE
+SYSTEM-9ASP
+SYSTEM-90LEU
+SYSTEM-91LYS
+SYSTEM-92HIS
+SYSTEM-93THR
+SYSTEM-94GLY
+SYSTEM-95PRO
+SYSTEM-96GLY
+SYSTEM-97ILE
+SYSTEM-98LEU
+SYSTEM-99SER
+[{'SYSTEM-2VAL'}, {'SYSTEM-3ASN'}, {'SYSTEM-4PRO'}, {'SYSTEM-133LYS', 'SYSTEM-134GLU', 'SYSTEM-93THR', 'SYSTEM-5THR', 'SYSTEM-21SER', 'SYSTEM-131LYS', 'SYSTEM-23GLU'}, {'SYSTEM-6VAL'}, {'SYSTEM-7PHE'}, {'SYSTEM-8PHE'}, {'SYSTEM-9ASP', 'SYSTEM-19ARG'}, {'SYSTEM-10ILE'}, {'SYSTEM-11ALA'}, {'SYSTEM-12VAL'}, {'SYSTEM-13ASP', 'SYSTEM-154LYS', 'SYSTEM-70HIS', 'SYSTEM-15GLU', 'SYSTEM-52CYS', 'SYSTEM-155LYS', 'SYSTEM-157THR'}, {'SYSTEM-14GLY'}, {'SYSTEM-16PRO'}, {'SYSTEM-17LEU'}, {'SYSTEM-18GLY'}, {'SYSTEM-20VAL'}, {'SYSTEM-22PHE'}, {'SYSTEM-24LEU'}, {'SYSTEM-25PHE'}, {'SYSTEM-26ALA'}, {'SYSTEM-48TYR', 'SYSTEM-27ASP', 'SYSTEM-32THR', 'SYSTEM-44LYS', 'SYSTEM-110SER', 'SYSTEM-43GLU', 'SYSTEM-107THR', 'SYSTEM-102ASN', 'SYSTEM-111GLN', 'SYSTEM-37ARG', 'SYSTEM-82LYS', 'SYSTEM-108ASN', 'SYSTEM-31LYS', 'SYSTEM-76LYS', 'SYSTEM-81GLU', 'SYSTEM-28LYS', 'SYSTEM-35ASN', 'SYSTEM-86GLU', 'SYSTEM-41THR', 'SYSTEM-84GLU', 'SYSTEM-125LYS', 'SYSTEM-85ASP', 'SYSTEM-34GLU', 'SYSTEM-79TYR', 'SYSTEM-106ASN', 'SYSTEM-77SER', 'SYSTEM-126HIS'}, {'SYSTEM-29VAL'}, {'SYSTEM-30PRO'}, {'SYSTEM-33ALA'}, {'SYSTEM-36PHE'}, {'SYSTEM-38ALA'}, {'SYSTEM-39LEU'}, {'SYSTEM-40SER'}, {'SYSTEM-42GLY'}, {'SYSTEM-45GLY'}, {'SYSTEM-46PHE'}, {'SYSTEM-47GLY'}, {'SYSTEM-49LYS', 'SYSTEM-160ASP'}, {'SYSTEM-50GLY'}, {'SYSTEM-51SER'}, {'SYSTEM-53PHE'}, {'SYSTEM-54HIS'}, {'SYSTEM-55ARG', 'SYSTEM-63GLN'}, {'SYSTEM-56ILE'}, {'SYSTEM-57ILE'}, {'SYSTEM-58PRO'}, {'SYSTEM-59GLY'}, {'SYSTEM-60PHE'}, {'SYSTEM-61MET'}, {'SYSTEM-62CYS'}, {'SYSTEM-64GLY'}, {'SYSTEM-65GLY'}, {'SYSTEM-66ASP'}, {'SYSTEM-67PHE'}, {'SYSTEM-68THR'}, {'SYSTEM-149ASN', 'SYSTEM-148ARG', 'SYSTEM-69ARG', 'SYSTEM-73THR', 'SYSTEM-147SER', 'SYSTEM-152THR', 'SYSTEM-153SER', 'SYSTEM-71ASN', 'SYSTEM-151LYS'}, {'SYSTEM-72GLY'}, {'SYSTEM-74GLY'}, {'SYSTEM-75GLY'}, {'SYSTEM-78ILE'}, {'SYSTEM-80GLY'}, {'SYSTEM-83PHE'}, {'SYSTEM-87ASN'}, {'SYSTEM-88PHE'}, {'SYSTEM-89ILE'}, {'SYSTEM-90LEU'}, {'SYSTEM-120GLU', 'SYSTEM-91LYS', 'SYSTEM-99SER', 'SYSTEM-118LYS', 'SYSTEM-123ASP', 'SYSTEM-92HIS'}, {'SYSTEM-94GLY'}, {'SYSTEM-95PRO'}, {'SYSTEM-96GLY'}, {'SYSTEM-97ILE'}, {'SYSTEM-98LEU'}, {'SYSTEM-100MET'}, {'SYSTEM-101ALA'}, {'SYSTEM-103ALA'}, {'SYSTEM-104GLY'}, {'SYSTEM-105PRO'}, {'SYSTEM-109GLY'}, {'SYSTEM-112PHE'}, {'SYSTEM-113PHE'}, {'SYSTEM-114ILE'}, {'SYSTEM-119THR', 'SYSTEM-115CYS'}, {'SYSTEM-143GLU', 'SYSTEM-116THR'}, {'SYSTEM-117ALA'}, {'SYSTEM-121TRP'}, {'SYSTEM-122LEU'}, {'SYSTEM-124GLY'}, {'SYSTEM-127VAL'}, {'SYSTEM-128VAL'}, {'SYSTEM-129PHE'}, {'SYSTEM-130GLY'}, {'SYSTEM-132VAL'}, {'SYSTEM-135GLY'}, {'SYSTEM-136MET'}, {'SYSTEM-137ASN'}, {'SYSTEM-138ILE'}, {'SYSTEM-139VAL'}, {'SYSTEM-144ARG', 'SYSTEM-140GLU'}, {'SYSTEM-141ALA'}, {'SYSTEM-142MET'}, {'SYSTEM-145PHE'}, {'SYSTEM-146GLY'}, {'SYSTEM-150GLY'}, {'SYSTEM-156ILE'}, {'SYSTEM-158ILE'}, {'SYSTEM-159ALA'}, {'SYSTEM-161CYS'}, {'SYSTEM-162GLY'}, {'SYSTEM-163GLN'}, {'SYSTEM-164LEU'}]
+Connected component 1
+ (1 elements) SYSTEM-2VAL
+Connected component 2
+ (1 elements) SYSTEM-3ASN
+Connected component 3
+ (1 elements) SYSTEM-4PRO
+Connected component 4
+ (7 elements) SYSTEM-131LYS, SYSTEM-133LYS, SYSTEM-134GLU, SYSTEM-21SER, SYSTEM-23GLU, SYSTEM-5THR, SYSTEM-93THR
+Connected component 5
+ (1 elements) SYSTEM-6VAL
+Connected component 6
+ (1 elements) SYSTEM-7PHE
+Connected component 7
+ (1 elements) SYSTEM-8PHE
+Connected component 8
+ (2 elements) SYSTEM-19ARG, SYSTEM-9ASP
+Connected component 9
+ (1 elements) SYSTEM-10ILE
+Connected component 10
+ (1 elements) SYSTEM-11ALA
+Connected component 11
+ (1 elements) SYSTEM-12VAL
+Connected component 12
+ (7 elements) SYSTEM-13ASP, SYSTEM-15GLU, SYSTEM-154LYS, SYSTEM-155LYS, SYSTEM-157THR, SYSTEM-52CYS, SYSTEM-70HIS
+Connected component 13
+ (1 elements) SYSTEM-14GLY
+Connected component 14
+ (1 elements) SYSTEM-16PRO
+Connected component 15
+ (1 elements) SYSTEM-17LEU
+Connected component 16
+ (1 elements) SYSTEM-18GLY
+Connected component 17
+ (1 elements) SYSTEM-20VAL
+Connected component 18
+ (1 elements) SYSTEM-22PHE
+Connected component 19
+ (1 elements) SYSTEM-24LEU
+Connected component 20
+ (1 elements) SYSTEM-25PHE
+Connected component 21
+ (1 elements) SYSTEM-26ALA
+Connected component 22
+ (27 elements) SYSTEM-102ASN, SYSTEM-106ASN, SYSTEM-107THR, SYSTEM-108ASN, SYSTEM-110SER, SYSTEM-111GLN, SYSTEM-125LYS, SYSTEM-126HIS, SYSTEM-27ASP, SYSTEM-28LYS, SYSTEM-31LYS, SYSTEM-32THR, SYSTEM-34GLU, SYSTEM-35ASN, SYSTEM-37ARG, SYSTEM-41THR, SYSTEM-43GLU, SYSTEM-44LYS, SYSTEM-48TYR, SYSTEM-76LYS, SYSTEM-77SER, SYSTEM-79TYR, SYSTEM-81GLU, SYSTEM-82LYS, SYSTEM-84GLU, SYSTEM-85ASP, SYSTEM-86GLU
+Connected component 23
+ (1 elements) SYSTEM-29VAL
+Connected component 24
+ (1 elements) SYSTEM-30PRO
+Connected component 25
+ (1 elements) SYSTEM-33ALA
+Connected component 26
+ (1 elements) SYSTEM-36PHE
+Connected component 27
+ (1 elements) SYSTEM-38ALA
+Connected component 28
+ (1 elements) SYSTEM-39LEU
+Connected component 29
+ (1 elements) SYSTEM-40SER
+Connected component 30
+ (1 elements) SYSTEM-42GLY
+Connected component 31
+ (1 elements) SYSTEM-45GLY
+Connected component 32
+ (1 elements) SYSTEM-46PHE
+Connected component 33
+ (1 elements) SYSTEM-47GLY
+Connected component 34
+ (2 elements) SYSTEM-160ASP, SYSTEM-49LYS
+Connected component 35
+ (1 elements) SYSTEM-50GLY
+Connected component 36
+ (1 elements) SYSTEM-51SER
+Connected component 37
+ (1 elements) SYSTEM-53PHE
+Connected component 38
+ (1 elements) SYSTEM-54HIS
+Connected component 39
+ (2 elements) SYSTEM-55ARG, SYSTEM-63GLN
+Connected component 40
+ (1 elements) SYSTEM-56ILE
+Connected component 41
+ (1 elements) SYSTEM-57ILE
+Connected component 42
+ (1 elements) SYSTEM-58PRO
+Connected component 43
+ (1 elements) SYSTEM-59GLY
+Connected component 44
+ (1 elements) SYSTEM-60PHE
+Connected component 45
+ (1 elements) SYSTEM-61MET
+Connected component 46
+ (1 elements) SYSTEM-62CYS
+Connected component 47
+ (1 elements) SYSTEM-64GLY
+Connected component 48
+ (1 elements) SYSTEM-65GLY
+Connected component 49
+ (1 elements) SYSTEM-66ASP
+Connected component 50
+ (1 elements) SYSTEM-67PHE
+Connected component 51
+ (1 elements) SYSTEM-68THR
+/data/user/valentina/environments/python3.7-pyinknife/lib/python3.7/site-packages/MDAnalysis/coordinates/chemfiles.py:108: DeprecationWarning: distutils Version classes are deprecated. Use packaging.version instead.
+  MIN_CHEMFILES_VERSION = LooseVersion("0.9")
+/data/user/valentina/environments/python3.7-pyinknife/lib/python3.7/site-packages/Bio/PDB/PDBParser.py:399: PDBConstructionWarning: Ignoring unrecognized record 'TER' at line 2477
+  PDBConstructionWarning,
+Connected component 52
+ (9 elements) SYSTEM-147SER, SYSTEM-148ARG, SYSTEM-149ASN, SYSTEM-151LYS, SYSTEM-152THR, SYSTEM-153SER, SYSTEM-69ARG, SYSTEM-71ASN, SYSTEM-73THR
+Connected component 53
+ (1 elements) SYSTEM-72GLY
+Connected component 54
+ (1 elements) SYSTEM-74GLY
+Connected component 55
+ (1 elements) SYSTEM-75GLY
+Connected component 56
+ (1 elements) SYSTEM-78ILE
+Connected component 57
+ (1 elements) SYSTEM-80GLY
+Connected component 58
+ (1 elements) SYSTEM-83PHE
+Connected component 59
+ (1 elements) SYSTEM-87ASN
+Connected component 60
+ (1 elements) SYSTEM-88PHE
+Connected component 61
+ (1 elements) SYSTEM-89ILE
+Connected component 62
+ (1 elements) SYSTEM-90LEU
+Connected component 63
+ (6 elements) SYSTEM-118LYS, SYSTEM-120GLU, SYSTEM-123ASP, SYSTEM-91LYS, SYSTEM-92HIS, SYSTEM-99SER
+Connected component 64
+ (1 elements) SYSTEM-94GLY
+Connected component 65
+ (1 elements) SYSTEM-95PRO
+Connected component 66
+ (1 elements) SYSTEM-96GLY
+Connected component 67
+ (1 elements) SYSTEM-97ILE
+Connected component 68
+ (1 elements) SYSTEM-98LEU
+Connected component 69
+ (1 elements) SYSTEM-100MET
+Connected component 70
+ (1 elements) SYSTEM-101ALA
+Connected component 71
+ (1 elements) SYSTEM-103ALA
+Connected component 72
+ (1 elements) SYSTEM-104GLY
+Connected component 73
+ (1 elements) SYSTEM-105PRO
+Connected component 74
+ (1 elements) SYSTEM-109GLY
+Connected component 75
+ (1 elements) SYSTEM-112PHE
+Connected component 76
+ (1 elements) SYSTEM-113PHE
+Connected component 77
+ (1 elements) SYSTEM-114ILE
+Connected component 78
+ (2 elements) SYSTEM-115CYS, SYSTEM-119THR
+Connected component 79
+ (2 elements) SYSTEM-116THR, SYSTEM-143GLU
+Connected component 80
+ (1 elements) SYSTEM-117ALA
+Connected component 81
+ (1 elements) SYSTEM-121TRP
+Connected component 82
+ (1 elements) SYSTEM-122LEU
+Connected component 83
+ (1 elements) SYSTEM-124GLY
+Connected component 84
+ (1 elements) SYSTEM-127VAL
+Connected component 85
+ (1 elements) SYSTEM-128VAL
+Connected component 86
+ (1 elements) SYSTEM-129PHE
+Connected component 87
+ (1 elements) SYSTEM-130GLY
+Connected component 88
+ (1 elements) SYSTEM-132VAL
+Connected component 89
+ (1 elements) SYSTEM-135GLY
+Connected component 90
+ (1 elements) SYSTEM-136MET
+Connected component 91
+ (1 elements) SYSTEM-137ASN
+Connected component 92
+ (1 elements) SYSTEM-138ILE
+Connected component 93
+ (1 elements) SYSTEM-139VAL
+Connected component 94
+ (2 elements) SYSTEM-140GLU, SYSTEM-144ARG
+Connected component 95
+ (1 elements) SYSTEM-141ALA
+Connected component 96
+ (1 elements) SYSTEM-142MET
+Connected component 97
+ (1 elements) SYSTEM-145PHE
+Connected component 98
+ (1 elements) SYSTEM-146GLY
+Connected component 99
+ (1 elements) SYSTEM-150GLY
+Connected component 100
+ (1 elements) SYSTEM-156ILE
+Connected component 101
+ (1 elements) SYSTEM-158ILE
+Connected component 102
+ (1 elements) SYSTEM-159ALA
+Connected component 103
+ (1 elements) SYSTEM-161CYS
+Connected component 104
+ (1 elements) SYSTEM-162GLY
+Connected component 105
+ (1 elements) SYSTEM-163GLN
+Connected component 106
+ (1 elements) SYSTEM-164LEU

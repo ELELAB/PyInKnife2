@@ -1,0 +1,4 @@
+k,trjfull,resampling0,resampling8,resampling4,resampling5,resampling7,resampling3,resampling6,resampling2,resampling1,resampling9,mean_resamplings,median_resamplings,min_resamplings,max_resamplings,std_resamplings,sem_resamplings
+3,15,14,13,16.0,13.0,14,13,15,15,15,15,14.3,14.5,13.0,16.0,1.0593499054713802,0.334995854037363
+4,3,3,2,2.0,1.0,3,3,3,3,3,2,2.5,3.0,1.0,3.0,0.7071067811865476,0.22360679774997896
+7,1,1,1,,,1,1,1,1,1,1,1.0,1.0,1.0,1.0,0.0,0.0
